@@ -214,10 +214,10 @@
 
       <!-- Action buttons -->
       <div class="mt-8 flex flex-col sm:flex-row gap-3.5 w-full max-w-md no-print justify-center">
-        <button onclick="window.print()" class="flex-1 bg-white hover:bg-slate-50 text-gray-800 font-extrabold text-xs md:text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all border border-gray-200 shadow-xs cursor-pointer">
+        <a id="print-invoice-btn" href="#" class="flex-1 bg-white hover:bg-slate-50 text-gray-800 font-extrabold text-xs md:text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all border border-gray-200 shadow-xs cursor-pointer text-center select-none">
           🖨️ ইনভয়েস প্রিন্ট করুন
-        </button>
-        <a href="index.html" class="flex-1 bg-gradient-to-r from-[#0b6275] to-[#074857] hover:from-[#074857] hover:to-[#074857] text-white font-extrabold text-xs md:text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer text-center">
+        </a>
+        <a href="index.html" class="flex-1 bg-gradient-to-r from-[#0b6275] to-[#074857] hover:from-[#074857] hover:to-[#074857] text-white font-extrabold text-xs md:text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer text-center select-none">
           🏠 হোম পেজে ফিরে যান
         </a>
       </div>
@@ -296,6 +296,33 @@
           document.getElementById('invoice-subtotal').textContent = '৳০';
           document.getElementById('invoice-delivery-charge').textContent = '৳০';
           document.getElementById('invoice-grand-total').textContent = '৳০';
+        }
+
+        // Configure print button dynamically
+        const printBtn = document.getElementById('print-invoice-btn');
+        const isIframe = window.self !== window.top;
+
+        if (isIframe) {
+          // Inside an iframe, printing is blocked by browser sandbox. Open in a new tab with print instruction.
+          printBtn.href = 'thank-you.html?print=true';
+          printBtn.target = '_blank';
+        } else {
+          // Direct window/tab, trigger print directly
+          printBtn.href = '#';
+          printBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.focus();
+            window.print();
+          });
+        }
+
+        // Auto trigger printing if param is present and not inside iframe
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('print') && !isIframe) {
+          setTimeout(() => {
+            window.focus();
+            window.print();
+          }, 600);
         }
       });
     </script>
