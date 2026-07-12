@@ -381,8 +381,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const isHomePage = document.getElementById('catalog-grid') !== null;
   const isDetailsPage = document.getElementById('product-details-container') !== null;
 
+  // Inject Cart Drawer HTML
+  injectCartDrawerHTML();
+
   // Initialize common elements
   initCommonCartBadge();
+
+  // Attach click listener to Header Cart button
+  const cartBtn = document.getElementById('header-cart-btn');
+  if (cartBtn) {
+    cartBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCartDrawer();
+    });
+  }
 
   if (isHomePage) {
     initHomePage();
@@ -464,7 +476,7 @@ function initHomePage() {
             <button onclick="window.location.href='product.html?id=${product.id}'" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95">
               <span>বিস্তারিত দেখুন</span>
             </button>
-            <button onclick="window.location.href='product.html?id=${product.id}&order=true'" class="w-full bg-[#1e1e24] hover:bg-amber-500 hover:text-black text-white font-extrabold text-xs py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 group shadow-md hover:shadow-lg active:scale-95">
+            <button onclick="addToCart('${product.id}', 1)" class="w-full bg-[#1e1e24] hover:bg-amber-500 hover:text-black text-white font-extrabold text-xs py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all duration-200 group shadow-md hover:shadow-lg active:scale-95">
               <span>অর্ডার করুন</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
@@ -715,6 +727,16 @@ function initGallerySlider(product) {
       lightboxOverlay.classList.remove('flex');
     }, 200);
   };
+
+  // Attach click listener to detail page Add to Cart button
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener('click', () => {
+      const qtyEl = document.getElementById('order-qty');
+      const qty = qtyEl ? parseInt(qtyEl.textContent, 10) || 1 : 1;
+      addToCart(product.id, qty);
+    });
+  }
 }
 
 
@@ -1129,3 +1151,386 @@ function initOrderForm(product) {
   calculateTotal();
   generateSocialLinks();
 }
+
+
+/* =======================================================
+   UNIVERSAL CART & DRAWER ENGINE (ZUNO MART BD)
+   ======================================================= */
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem('fatafati_cart') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCart(cart) {
+  localStorage.setItem('fatafati_cart', JSON.stringify(cart));
+  
+  // Calculate total quantity of items
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  localStorage.setItem('fatafati_orders_count', totalQty.toString());
+  
+  // Update badges
+  const cartBadges = document.querySelectorAll('.cart-count-badge');
+  cartBadges.forEach(badge => {
+    if (totalQty > 0) {
+      badge.textContent = totalQty;
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+  });
+  
+  // Render Cart inside Drawer if open
+  renderCartDrawer();
+}
+
+function addToCart(productId, qty = 1) {
+  const cart = getCart();
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.quantity += qty;
+  } else {
+    cart.push({ id: productId, quantity: qty });
+  }
+  saveCart(cart);
+  openCartDrawer();
+}
+
+function updateCartQty(productId, delta) {
+  const cart = getCart();
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.quantity += delta;
+    if (existing.quantity <= 0) {
+      removeFromCart(productId);
+      return;
+    }
+  }
+  saveCart(cart);
+}
+
+function removeFromCart(productId) {
+  let cart = getCart();
+  cart = cart.filter(item => item.id !== productId);
+  saveCart(cart);
+}
+
+// Append Cart Drawer HTML to body dynamically on load
+function injectCartDrawerHTML() {
+  if (document.getElementById('cart-drawer-overlay')) return; // already injected
+  
+  const drawerHTML = `
+    <!-- Cart Drawer Overlay -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+    
+    <!-- Cart Drawer Panel -->
+    <div id="cart-drawer-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col justify-between transform translate-x-full transition-transform duration-300 border-l border-gray-100">
+      <!-- Header -->
+      <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-[#0b6275] to-[#074857] text-white">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <h3 class="font-bold text-base md:text-lg">শপিং কার্ট</h3>
+        </div>
+        <button id="close-cart-btn" class="p-1 rounded-lg hover:bg-white/15 transition-all text-white cursor-pointer active:scale-95">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Scrollable body -->
+      <div id="cart-drawer-body" class="flex-grow overflow-y-auto p-4 space-y-4 no-scrollbar">
+        <!-- Empty State -->
+        <div id="cart-empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center text-[#0b6275]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-800 text-sm md:text-base">আপনার কার্ট খালি আছে</h4>
+            <p class="text-xs text-gray-500 mt-1">প্রয়োজনীয় প্রোডাক্ট কার্টে যোগ করুন।</p>
+          </div>
+          <button id="cart-continue-shopping" class="bg-[#0b6275] hover:bg-[#074857] text-white font-bold text-xs px-6 py-2.5 rounded-xl transition-all active:scale-95 cursor-pointer">শপিং করুন</button>
+        </div>
+
+        <!-- Items container -->
+        <div id="cart-items-list" class="space-y-3"></div>
+
+        <!-- Checkout Form inside drawer -->
+        <div id="cart-checkout-form-container" class="border-t border-dashed border-gray-200 pt-4 mt-4">
+          <h4 class="font-bold text-gray-900 text-xs md:text-sm border-b border-gray-100 pb-2 mb-3 flex items-center gap-2">
+            <span>📝 ক্যাশ অন ডেলিভারি অর্ডার ফর্ম</span>
+          </h4>
+          <form id="cart-checkout-form" class="space-y-3">
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-gray-700">আপনার নাম <span class="text-red-500">*</span></label>
+              <input type="text" id="cart-order-name" required placeholder="যেমন: মোঃ রফিক" class="w-full bg-slate-50 border border-gray-200 rounded-xl px-4 py-2.5 text-xs md:text-sm text-gray-900 focus:outline-none focus:border-[#0b6275] focus:bg-white transition-all font-medium" />
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-gray-700">মোবাইল নম্বর <span class="text-red-500">*</span></label>
+              <input type="tel" id="cart-order-phone" required placeholder="যেমন: 01xxxxxxxxx" class="w-full bg-slate-50 border border-gray-200 rounded-xl px-4 py-2.5 text-xs md:text-sm text-gray-900 focus:outline-none focus:border-[#0b6275] focus:bg-white transition-all font-mono font-bold" />
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-gray-700">সম্পূর্ণ ঠিকানা <span class="text-red-500">*</span></label>
+              <textarea id="cart-order-address" required rows="2" placeholder="যেমন: গ্রাম, ডাকঘর, থানা, জেলা" class="w-full bg-slate-50 border border-gray-200 rounded-xl px-4 py-2 text-xs md:text-sm text-gray-900 focus:outline-none focus:border-[#0b6275] focus:bg-white transition-all font-medium resize-none"></textarea>
+            </div>
+            <!-- District selection -->
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-gray-700">ডেলিভারি এলাকা নির্বাচন করুন <span class="text-red-500">*</span></label>
+              <select id="cart-order-district" class="w-full bg-slate-50 border border-gray-200 rounded-xl py-2.5 px-3 text-xs md:text-sm text-gray-900 font-bold cursor-pointer focus:outline-none focus:border-[#0b6275] transition-all">
+                <option value="sherpur-home" selected>শেরপুর হোম ডেলিভারি (৳৬০)</option>
+                <option value="bangladesh-courier">সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (৳১৩০)</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer calculations & Button -->
+      <div id="cart-drawer-footer" class="p-4 border-t border-gray-100 bg-gray-50/50 space-y-3.5">
+        <div class="space-y-2 text-xs md:text-sm border-b border-gray-100 pb-3">
+          <div class="flex justify-between text-gray-600 font-medium">
+            <span>সাব-টোটাল (Subtotal):</span>
+            <span id="cart-subtotal" class="font-bold text-gray-800">৳০</span>
+          </div>
+          <div class="flex justify-between text-gray-600 font-medium">
+            <span>ডেলিভারি চার্জ:</span>
+            <span id="cart-delivery" class="font-bold text-gray-800">৳০</span>
+          </div>
+          <div class="flex justify-between text-[#0b6275] font-black text-sm md:text-base pt-1">
+            <span>সর্বমোট মূল্য:</span>
+            <span id="cart-grand-total" class="font-black text-lg text-[#0b6275]">৳০</span>
+          </div>
+        </div>
+
+        <button id="cart-submit-order-btn" class="w-full bg-[#0b6275] hover:bg-[#074857] text-white font-black text-xs md:text-sm py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md active:scale-98 cursor-pointer select-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span>অর্ডার কনফার্ম করুন</span>
+        </button>
+      </div>
+    </div>
+  `;
+  
+  const div = document.createElement('div');
+  div.innerHTML = drawerHTML;
+  document.body.appendChild(div);
+  
+  // Attach Close listeners
+  document.getElementById('close-cart-btn').addEventListener('click', closeCartDrawer);
+  document.getElementById('cart-drawer-overlay').addEventListener('click', closeCartDrawer);
+  document.getElementById('cart-continue-shopping').addEventListener('click', closeCartDrawer);
+  
+  // Attach district update listener to update total
+  document.getElementById('cart-order-district').addEventListener('change', () => {
+    calculateAndRenderTotals();
+  });
+  
+  // Attach Submit Order listener
+  document.getElementById('cart-submit-order-btn').addEventListener('click', submitCartOrder);
+}
+
+function openCartDrawer() {
+  injectCartDrawerHTML();
+  
+  const overlay = document.getElementById('cart-drawer-overlay');
+  const panel = document.getElementById('cart-drawer-panel');
+  
+  overlay.classList.remove('pointer-events-none', 'opacity-0');
+  overlay.classList.add('opacity-100');
+  
+  panel.classList.remove('translate-x-full');
+  panel.classList.add('translate-x-0');
+  
+  renderCartDrawer();
+}
+
+function closeCartDrawer() {
+  const overlay = document.getElementById('cart-drawer-overlay');
+  const panel = document.getElementById('cart-drawer-panel');
+  
+  if (overlay && panel) {
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    overlay.classList.remove('opacity-100');
+    
+    panel.classList.add('translate-x-full');
+    panel.classList.remove('translate-x-0');
+  }
+}
+
+function renderCartDrawer() {
+  injectCartDrawerHTML();
+  
+  const cart = getCart();
+  const emptyState = document.getElementById('cart-empty-state');
+  const itemsList = document.getElementById('cart-items-list');
+  const checkoutContainer = document.getElementById('cart-checkout-form-container');
+  const footer = document.getElementById('cart-drawer-footer');
+  
+  if (cart.length === 0) {
+    emptyState.classList.remove('hidden');
+    itemsList.innerHTML = '';
+    checkoutContainer.classList.add('hidden');
+    footer.classList.add('hidden');
+    return;
+  }
+  
+  emptyState.classList.add('hidden');
+  checkoutContainer.classList.remove('hidden');
+  footer.classList.remove('hidden');
+  
+  // Render list of items
+  itemsList.innerHTML = '';
+  cart.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    if (!product) return;
+    
+    const div = document.createElement('div');
+    div.className = "flex gap-3 bg-slate-50 p-2.5 rounded-2xl border border-gray-100 items-center justify-between";
+    
+    div.innerHTML = `
+      <div class="flex items-center gap-3">
+        <img src="${product.images[0].replace('w=600', 'w=120').replace('q=80', 'q=60')}" alt="${product.banglaTitle}" class="w-12 h-12 rounded-lg object-cover border border-gray-100" />
+        <div>
+          <h5 class="font-bold text-gray-800 text-xs md:text-sm line-clamp-1">${product.banglaTitle || product.title}</h5>
+          <span class="text-[#0b6275] font-black text-xs md:text-sm">৳${product.price}</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <!-- Quantity controls -->
+        <div class="flex items-center bg-white border border-gray-200 rounded-xl px-2 py-1 gap-2.5 shadow-2xs">
+          <button onclick="updateCartQty('${product.id}', -1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">-</button>
+          <span class="font-bold text-xs text-gray-800 min-w-[12px] text-center">${item.quantity}</span>
+          <button onclick="updateCartQty('${product.id}', 1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">+</button>
+        </div>
+        <!-- Delete button -->
+        <button onclick="removeFromCart('${product.id}')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer active:scale-90">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+      </div>
+    `;
+    itemsList.appendChild(div);
+  });
+  
+  calculateAndRenderTotals();
+}
+
+function calculateAndRenderTotals() {
+  const cart = getCart();
+  const subtotal = cart.reduce((sum, item) => {
+    const p = products.find(prod => prod.id === item.id);
+    return sum + (p ? p.price * item.quantity : 0);
+  }, 0);
+  
+  const districtSelect = document.getElementById('cart-order-district');
+  const deliveryCharge = districtSelect.value === 'sherpur-home' ? 60 : 130;
+  const grandTotal = subtotal + deliveryCharge;
+  
+  document.getElementById('cart-subtotal').textContent = `৳${subtotal}`;
+  document.getElementById('cart-delivery').textContent = `৳${deliveryCharge}`;
+  document.getElementById('cart-grand-total').textContent = `৳${grandTotal}`;
+}
+
+function submitCartOrder(e) {
+  if (e) e.preventDefault();
+  
+  const nameInput = document.getElementById('cart-order-name');
+  const phoneInput = document.getElementById('cart-order-phone');
+  const addressInput = document.getElementById('cart-order-address');
+  const districtSelect = document.getElementById('cart-order-district');
+  
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.trim();
+  const address = addressInput.value.trim();
+  
+  if (!name || !phone || !address) {
+    document.getElementById('cart-checkout-form').reportValidity();
+    return;
+  }
+  
+  const submitBtn = document.getElementById('cart-submit-order-btn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'অর্ডার প্রসেস হচ্ছে...';
+  
+  const cart = getCart();
+  const subtotal = cart.reduce((sum, item) => {
+    const p = products.find(prod => prod.id === item.id);
+    return sum + (p ? p.price * item.quantity : 0);
+  }, 0);
+  
+  const deliveryVal = districtSelect.value === 'sherpur-home' ? 60 : 130;
+  const deliveryLabel = districtSelect.value === 'sherpur-home' ? 'শেরপুর হোম ডেলিভারি' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
+  const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+  const grandTotalVal = `৳${subtotal + deliveryVal}`;
+  
+  // Format ordered products list for WhatsApp and local receipt
+  const productNames = cart.map(item => {
+    const p = products.find(prod => prod.id === item.id);
+    return p ? `${p.banglaTitle || p.title} (${item.quantity} পিস)` : '';
+  }).filter(Boolean).join(', ');
+  
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Optional: Send order data to Google Sheets Web App if configured
+  let sheetPromise = Promise.resolve();
+  if (CONFIG.GOOGLE_SHEET_WEB_APP_URL) {
+    const orderData = {
+      orderId: trackingId,
+      date: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+      name: name,
+      phone: phone,
+      address: address,
+      product: productNames,
+      qty: totalQty,
+      total: grandTotalVal,
+      delivery: deliveryLabel,
+      promo: "N/A"
+    };
+
+    sheetPromise = fetch(CONFIG.GOOGLE_SHEET_WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain'
+      },
+      body: JSON.stringify(orderData)
+    }).catch(err => console.error("Error logging order to Google Sheet:", err));
+  }
+  
+  setTimeout(() => {
+    sheetPromise.finally(() => {
+      // Save last order to localStorage for receipt rendering
+      const lastOrder = {
+        trackingId: trackingId,
+        date: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+        customerName: name,
+        customerPhone: phone,
+        customerAddress: address,
+        productTitle: productNames,
+        productPrice: subtotal,
+        qty: totalQty,
+        deliveryCharge: deliveryVal,
+        deliveryLabel: deliveryLabel,
+        grandTotal: grandTotalVal
+      };
+      localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+      
+      // Clear cart
+      localStorage.setItem('fatafati_cart', '[]');
+      localStorage.setItem('fatafati_orders_count', '0');
+      
+      // Redirect to thank-you.html
+      window.location.href = 'thank-you.html';
+    });
+  }, 1200);
+}
+
+// Export functions to global window context so inline onclick functions work seamlessly
+window.addToCart = addToCart;
+window.getCart = getCart;
+window.saveCart = saveCart;
+window.updateCartQty = updateCartQty;
+window.removeFromCart = removeFromCart;
+window.openCartDrawer = openCartDrawer;
+window.closeCartDrawer = closeCartDrawer;
+window.renderCartDrawer = renderCartDrawer;
+window.calculateAndRenderTotals = calculateAndRenderTotals;
+window.submitCartOrder = submitCartOrder;
