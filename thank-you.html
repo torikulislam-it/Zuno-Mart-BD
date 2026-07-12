@@ -10,6 +10,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     
+    <!-- Meta Pixel Code (Universal Tracking) -->
+    <!-- Replace 'YOUR_PIXEL_ID' with your real Facebook/Meta Pixel ID, or set localStorage.setItem('meta_pixel_id', 'YOUR_ID') -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      
+      const metaPixelId = localStorage.getItem('meta_pixel_id') || 'YOUR_PIXEL_ID';
+      if (metaPixelId && metaPixelId !== 'YOUR_PIXEL_ID') {
+        fbq('init', metaPixelId);
+        fbq('track', 'PageView');
+      } else {
+        console.log("Meta Pixel: Standing by. Replace 'YOUR_PIXEL_ID' in HTML to enable live tracking.");
+      }
+    </script>
+    <!-- End Meta Pixel Code -->
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -89,6 +111,10 @@
     </style>
   </head>
   <body class="bg-[#f4f8f9] text-gray-800 antialiased font-sans selection:bg-teal-100 selection:text-teal-900 min-h-screen flex flex-col">
+    <!-- Meta Pixel NoScript Fallback (Safe in body) -->
+    <noscript>
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" />
+    </noscript>
 
     <!-- Top Tiny Bar -->
     <div class="bg-[#0b6275] text-white text-center py-2 px-4 text-xs font-bold tracking-wide no-print">
@@ -185,9 +211,21 @@
                 <span class="w-24 text-gray-400 font-bold">ডেলিভারি মেথড:</span>
                 <span id="order-delivery" class="text-gray-800 font-extrabold">...</span>
               </div>
-              <div class="flex">
-                <span class="w-24 text-gray-400 font-bold">পেমেন্ট টাইপ:</span>
-                <span class="text-emerald-600 font-extrabold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">ক্যাশ অন ডেলিভারি (COD)</span>
+              <div class="flex flex-col gap-1.5">
+                <div class="flex">
+                  <span class="w-24 text-gray-400 font-bold">পেমেন্ট টাইপ:</span>
+                  <span id="order-payment-method" class="text-emerald-600 font-extrabold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">ক্যাশ অন ডেলিভারি (COD)</span>
+                </div>
+                <div id="bkash-details-row" class="hidden flex flex-col gap-1 bg-pink-50 border border-pink-100 p-2 rounded-xl">
+                  <div class="flex">
+                    <span class="w-24 text-pink-700 font-bold">বিকাশ নাম্বার:</span>
+                    <span id="invoice-bkash-number" class="text-pink-900 font-mono font-black">...</span>
+                  </div>
+                  <div class="flex">
+                    <span class="w-24 text-pink-700 font-bold">ট্রানজেকশন ID:</span>
+                    <span id="invoice-bkash-trx" class="text-pink-900 font-mono font-black">...</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -307,6 +345,35 @@
             document.getElementById('invoice-subtotal').textContent = `৳${order.productPrice || 0}`;
             document.getElementById('invoice-delivery-charge').textContent = `৳${order.deliveryCharge || 0}`;
             document.getElementById('invoice-grand-total').textContent = order.grandTotal || '৳0';
+
+            // Populate bKash elements if prepaid
+            if (order.paymentMethod === 'bkash') {
+              const payMethod = document.getElementById('order-payment-method');
+              payMethod.textContent = 'bKash (১০% ছাড় সহ পরিশোধিত)';
+              payMethod.className = 'text-pink-600 font-extrabold bg-pink-50 px-2 py-0.5 rounded border border-pink-100';
+              
+              document.getElementById('invoice-bkash-number').textContent = order.bkashSender || 'N/A';
+              document.getElementById('invoice-bkash-trx').textContent = order.bkashTrx || 'N/A';
+              document.getElementById('bkash-details-row').classList.remove('hidden');
+            } else {
+              document.getElementById('bkash-details-row').classList.add('hidden');
+            }
+
+            // Track conversion with Meta Pixel if available
+            if (typeof fbq !== 'undefined') {
+              // Extract numeric value from grandTotal string (e.g., "৳790" -> 790)
+              const rawTotal = (order.grandTotal || '0').replace(/[^0-9]/g, '');
+              const totalAmount = parseInt(rawTotal, 10) || 0;
+              
+              fbq('track', 'Purchase', {
+                value: totalAmount,
+                currency: 'BDT',
+                content_name: order.productTitle || 'Products',
+                content_type: 'product',
+                num_items: order.qty || 1
+              });
+              console.log("Meta Pixel 'Purchase' event tracked successfully.");
+            }
           } catch (e) {
             console.error("Error parsing order details:", e);
             fallbackInvoice();

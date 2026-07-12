@@ -347,6 +347,53 @@ const products = [
   }
 ];
 
+// Dynamic Combo Packages Enrichment
+products.forEach(p => {
+  if (p.id === 'soft-toothbrush') {
+    p.combos = [
+      { id: 'combo-1', title: "১ সেট (৪ পিস টুথব্রাশ)", price: 600, badge: "৫০% ছাড়", qty: 1 },
+      { id: 'combo-2', title: "২ সেট (৮ পিস) + ফ্রি গিফট", price: 1100, badge: "জনপ্রিয় (৳১০০ সাশ্রয়)", qty: 2 },
+      { id: 'combo-3', title: "৩ সেট (১২ পিস) + ফ্রি ডেলিভারি", price: 1600, badge: "ধামাকা অফার (৳২০০ সাশ্রয়)", qty: 3 }
+    ];
+  } else if (p.id === 'herbal-shampoo') {
+    p.combos = [
+      { id: 'combo-1', title: "১ বোতল (২০০ মিলি শ্যাম্পু)", price: 790, badge: "৪৭% ছাড়", qty: 1 },
+      { id: 'combo-2', title: "২ বোতল (৪০০ মিলি) + ফ্রি গিফট", price: 1480, badge: "জনপ্রিয় (৳১০০ সাশ্রয়)", qty: 2 },
+      { id: 'combo-3', title: "৩ বোতল (৬০০ মিলি) + ১টি ফ্রি সাবান", price: 1980, badge: "সেরা অফার (৳৩৯০ সাশ্রয়)", qty: 3 }
+    ];
+  } else if (p.id === 'teeth-whitener') {
+    p.combos = [
+      { id: 'combo-1', title: "১টি টিথ হোয়াইটেনিং জেল", price: 490, badge: "৫১% ছাড়", qty: 1 },
+      { id: 'combo-2', title: "২টি জেল + ১টি নরম টুথব্রাশ ফ্রি", price: 885, badge: "জনপ্রিয় (৳৯৫ সাশ্রয়)", qty: 2 },
+      { id: 'combo-3', title: "৩টি জেল + ফ্রি ডেলিভারি", price: 1180, badge: "সেরা অফার (৳২৯০ সাশ্রয়)", qty: 3 }
+    ];
+  } else if (p.id === 'hismile-v34') {
+    p.combos = [
+      { id: 'combo-1', title: "১টি V34 কালার কারেক্টর সিরাম", price: 790, badge: "৪৭% ছাড়", qty: 1 },
+      { id: 'combo-2', title: "২টি সিরাম + ১টি মাউথওয়াশ ফ্রি", price: 1480, badge: "জনপ্রিয় (৳১০০ সাশ্রয়)", qty: 2 },
+      { id: 'combo-3', title: "৩টি সিরাম + ফ্রি ডেলিভারি", price: 1980, badge: "সেরা অফার (৳৩৯০ সাশ্রয়)", qty: 3 }
+    ];
+  } else if (p.id === 'eyebrow-razor') {
+    p.combos = [
+      { id: 'combo-1', title: "১টি সেফটি রেজার সেট (৩ পিস)", price: 490, badge: "৫১% ছাড়", qty: 1 },
+      { id: 'combo-2', title: "২টি রেজার সেট (৬ পিস) + স্ক্রাবার", price: 885, badge: "জনপ্রিয় (৳৯৫ সাশ্রয়)", qty: 2 },
+      { id: 'combo-3', title: "৩টি রেজার সেট (৯ পিস) + ফ্রি ডেলিভারি", price: 1180, badge: "সেরা অফার (৳২৯০ সাশ্রয়)", qty: 3 }
+    ];
+  } else if (p.id === 'feminine-wash') {
+    p.combos = [
+      { id: 'combo-1', title: "১টি ফেমিনিন একটিভ ওয়াশ", price: 1490, badge: "৩৮% ছাড়", qty: 1 },
+      { id: 'combo-2', title: "২টি ওয়াশ + ১টি ফেস ওয়াশ ফ্রি", price: 2780, badge: "জনপ্রিয় (৳২০০ সাশ্রয়)", qty: 2 },
+      { id: 'combo-3', title: "৩টি ওয়াশ + ফ্রি ডেলিভারি", price: 3680, badge: "সেরা অফার (৳৭৯০ সাশ্রয়)", qty: 3 }
+    ];
+  } else {
+    p.combos = [
+      { id: 'combo-1', title: `১টি ${p.banglaTitle || p.title}`, price: p.price, badge: p.discountBadge, qty: 1 },
+      { id: 'combo-2', title: `২টি ${p.banglaTitle || p.title}`, price: p.price * 2 - 100, badge: "৳১০০ সাশ্রয়", qty: 2 },
+      { id: 'combo-3', title: `৩টি ${p.banglaTitle || p.title}`, price: p.price * 3 - 200, badge: "৳২০০ সাশ্রয়", qty: 3 }
+    ];
+  }
+});
+
 // Helper: Get product category based on ID
 function getProductCategory(p) {
   if (p.id.includes('toothbrush') || p.id.includes('whitener') || p.id.includes('v34')) return 'dental';
@@ -967,20 +1014,133 @@ function initOrderForm(product) {
   let currentQty = 1;
   let promoDiscount = 0;
 
+  // Render combo packages dynamically
+  const combosList = document.getElementById('combo-packages-list');
+  if (combosList && product.combos) {
+    combosList.innerHTML = product.combos.map((combo, idx) => `
+      <label class="combo-option-card flex items-center justify-between bg-zinc-900/40 border ${idx === 0 ? 'border-amber-500 ring-1 ring-amber-500/20' : 'border-zinc-700'} hover:border-amber-400 rounded-2xl p-4 cursor-pointer transition-all select-none">
+        <div class="flex items-center gap-3">
+          <input type="radio" name="combo-package" value="${combo.id}" ${idx === 0 ? 'checked' : ''} class="accent-amber-500 w-4.5 h-4.5 cursor-pointer" />
+          <div>
+            <p class="text-xs md:text-sm font-black text-white">${combo.title}</p>
+            <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 inline-block">${combo.badge}</span>
+          </div>
+        </div>
+        <span class="text-sm md:text-base font-black text-amber-400 font-mono">৳${combo.price}</span>
+      </label>
+    `).join('');
+    
+    // Set initial qty from first combo
+    currentQty = product.combos[0].qty;
+    qtyInput.textContent = currentQty;
+
+    // Bind change event to combo radios
+    const radioInputs = combosList.querySelectorAll('input[name="combo-package"]');
+    radioInputs.forEach(input => {
+      input.addEventListener('change', (e) => {
+        // Reset borders
+        const cards = combosList.querySelectorAll('.combo-option-card');
+        cards.forEach(card => {
+          card.className = 'combo-option-card flex items-center justify-between bg-zinc-900/40 border border-zinc-700 hover:border-amber-400 rounded-2xl p-4 cursor-pointer transition-all select-none';
+        });
+        
+        // Highlight active card
+        const card = e.target.closest('.combo-option-card');
+        if (card) {
+          card.className = 'combo-option-card flex items-center justify-between bg-zinc-900/40 border border-amber-500 ring-1 ring-amber-500/20 rounded-2xl p-4 cursor-pointer transition-all select-none';
+        }
+        
+        // Get selected combo
+        const selectedCombo = product.combos.find(c => c.id === e.target.value);
+        if (selectedCombo) {
+          currentQty = selectedCombo.qty;
+          qtyInput.textContent = currentQty;
+          calculateTotal();
+          generateSocialLinks();
+        }
+      });
+    });
+  }
+
+  // Payment elements
+  const codRadio = formElement.querySelector('input[name="payment-method"][value="cod"]');
+  const bkashRadio = formElement.querySelector('input[name="payment-method"][value="bkash"]');
+  const bkashFieldsContainer = document.getElementById('bkash-fields-container');
+  const bkashSenderInput = document.getElementById('order-bkash-sender');
+  const bkashTrxInput = document.getElementById('order-bkash-trx');
+  
+  const paymentCodLabel = document.getElementById('payment-cod-label');
+  const paymentBkashLabel = document.getElementById('payment-bkash-label');
+
+  function updatePaymentMethodUI() {
+    const isBkash = bkashRadio && bkashRadio.checked;
+    if (isBkash) {
+      if (bkashFieldsContainer) bkashFieldsContainer.classList.remove('hidden');
+      if (bkashSenderInput) bkashSenderInput.required = true;
+      if (bkashTrxInput) bkashTrxInput.required = true;
+      
+      if (paymentBkashLabel) {
+        paymentBkashLabel.className = 'flex items-center gap-3 bg-pink-950/15 border-2 border-pink-500 rounded-2xl p-4 cursor-pointer transition-all select-none';
+      }
+      if (paymentCodLabel) {
+        paymentCodLabel.className = 'flex items-center gap-3 bg-zinc-900/40 border border-zinc-700 rounded-2xl p-4 cursor-pointer transition-all select-none';
+      }
+    } else {
+      if (bkashFieldsContainer) bkashFieldsContainer.classList.add('hidden');
+      if (bkashSenderInput) {
+        bkashSenderInput.required = false;
+        bkashSenderInput.value = '';
+      }
+      if (bkashTrxInput) {
+        bkashTrxInput.required = false;
+        bkashTrxInput.value = '';
+      }
+      
+      if (paymentCodLabel) {
+        paymentCodLabel.className = 'flex items-center gap-3 bg-zinc-900/45 border-2 border-amber-500 rounded-2xl p-4 cursor-pointer transition-all select-none';
+      }
+      if (paymentBkashLabel) {
+        paymentBkashLabel.className = 'flex items-center gap-3 bg-zinc-900/40 border border-zinc-700 hover:border-pink-500 rounded-2xl p-4 cursor-pointer transition-all select-none';
+      }
+    }
+    calculateTotal();
+    generateSocialLinks();
+  }
+
+  if (codRadio) codRadio.addEventListener('change', updatePaymentMethodUI);
+  if (bkashRadio) bkashRadio.addEventListener('change', updatePaymentMethodUI);
+
   // Re-calculate math
   function calculateTotal() {
-    const productPrice = product.price;
-    const subtotal = productPrice * currentQty;
-    const deliveryCharge = districtSelect.value === 'sherpur-home' ? 60 : 130;
-    const grandTotal = Math.max(0, subtotal + deliveryCharge - promoDiscount);
+    // Get checked combo price
+    let subtotal = product.price * currentQty;
+    const activeRadio = formElement.querySelector('input[name="combo-package"]:checked');
+    const isThirdCombo = activeRadio && activeRadio.value === 'combo-3';
+
+    if (activeRadio && product.combos) {
+      const selectedCombo = product.combos.find(c => c.id === activeRadio.value);
+      if (selectedCombo && selectedCombo.qty === currentQty) {
+        subtotal = selectedCombo.price;
+      }
+    }
+
+    const isBkashSelected = bkashRadio && bkashRadio.checked;
+    let bkashDiscount = 0;
+    if (isBkashSelected) {
+      bkashDiscount = Math.round(subtotal * 0.10);
+    }
+
+    const deliveryCharge = isThirdCombo ? 0 : 130; // Flat nationwide delivery charge, free for 3rd option!
+    const totalDiscount = promoDiscount + bkashDiscount;
+    const grandTotal = Math.max(0, subtotal + deliveryCharge - totalDiscount);
 
     // Update form labels
     invoiceSubtotal.textContent = `৳${subtotal}`;
-    invoiceDelivery.textContent = `৳${deliveryCharge}`;
+    invoiceDelivery.textContent = isThirdCombo ? `৳০ (ফ্রি)` : `৳${deliveryCharge}`;
     
-    if (promoDiscount > 0) {
+    if (totalDiscount > 0) {
       invoiceDiscountRow.classList.remove('hidden');
-      invoiceDiscount.textContent = `- ৳${promoDiscount}`;
+      invoiceDiscount.textContent = `- ৳${totalDiscount}`;
     } else {
       invoiceDiscountRow.classList.add('hidden');
     }
@@ -993,20 +1153,49 @@ function initOrderForm(product) {
     if (currentQty > 1) {
       currentQty--;
       qtyInput.textContent = currentQty;
+      
+      // Auto-align combo selection radio if qty matches a combo
+      if (product.combos) {
+        const matchingCombo = product.combos.find(c => c.qty === currentQty);
+        if (matchingCombo) {
+          const radio = formElement.querySelector(`input[name="combo-package"][value="${matchingCombo.id}"]`);
+          if (radio) {
+            radio.checked = true;
+            // trigger change styling
+            const event = new Event('change');
+            radio.dispatchEvent(event);
+            return;
+          }
+        }
+      }
+      
       calculateTotal();
+      generateSocialLinks();
     }
   };
 
   window.triggerQtyPlus = () => {
     currentQty++;
     qtyInput.textContent = currentQty;
+    
+    // Auto-align combo selection radio if qty matches a combo
+    if (product.combos) {
+      const matchingCombo = product.combos.find(c => c.qty === currentQty);
+      if (matchingCombo) {
+        const radio = formElement.querySelector(`input[name="combo-package"][value="${matchingCombo.id}"]`);
+        if (radio) {
+          radio.checked = true;
+          // trigger change styling
+          const event = new Event('change');
+          radio.dispatchEvent(event);
+          return;
+        }
+      }
+    }
+    
     calculateTotal();
+    generateSocialLinks();
   };
-
-  // Bind district dropdown updates
-  districtSelect.addEventListener('change', () => {
-    calculateTotal();
-  });
 
   // Bind promo code validation (optional, safe fallback)
   window.triggerApplyPromo = () => {
@@ -1041,6 +1230,7 @@ function initOrderForm(product) {
     }
 
     calculateTotal();
+    generateSocialLinks();
   };
 
   // Build links for WhatsApp & Call
@@ -1048,12 +1238,15 @@ function initOrderForm(product) {
     const name = document.getElementById('order-name').value.trim();
     const phone = document.getElementById('order-phone').value.trim();
     const address = document.getElementById('order-address').value.trim();
-    const delivery = districtSelect.value === 'sherpur-home' ? 'শেরপুর হোম ডেলিভারি' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
+    const delivery = 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
     const finalPrice = invoiceGrandTotal.textContent;
+    const isBkashSelected = bkashRadio && bkashRadio.checked;
+    const payLabel = isBkashSelected ? 'বিকাশ অগ্রিম পেমেন্ট (১০% ডিসকাউন্ট সহ)' : 'ক্যাশ অন ডেলিভারি (COD)';
 
     const message = `হ্যালো! আমি "${product.title}" অর্ডার করতে চাই।\n` +
       `পরিমাণ: ${currentQty} পিস\n` +
       `ডেলিভারি এলাকা: ${delivery}\n` +
+      `পেমেন্ট পদ্ধতি: ${payLabel}\n` +
       `মোট মূল্য: ${finalPrice}\n` +
       `আমার নাম: ${name || '(নাম লিখুন)'}\n` +
       `মোবাইল: ${phone || '(নম্বর লিখুন)'}\n` +
@@ -1070,7 +1263,6 @@ function initOrderForm(product) {
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', generateSocialLinks);
   });
-  districtSelect.addEventListener('change', generateSocialLinks);
 
   // Form Submission
   formElement.addEventListener('submit', (e) => {
@@ -1082,16 +1274,37 @@ function initOrderForm(product) {
 
     if (!name || !phone || !address) return;
 
+    // Check payment method
+    const paymentMethod = formElement.querySelector('input[name="payment-method"]:checked')?.value || 'cod';
+    const bkashSender = bkashSenderInput ? bkashSenderInput.value.trim() : '';
+    const bkashTrx = bkashTrxInput ? bkashTrxInput.value.trim() : '';
+
+    if (paymentMethod === 'bkash' && (!bkashSender || !bkashTrx)) {
+      alert('অনুগ্রহ করে আপনার বিকাশ নম্বর এবং ট্রানজেকশন আইডি প্রবেশ করান।');
+      return;
+    }
+
     const submitBtn = document.getElementById('confirm-submit-btn');
     submitBtn.disabled = true;
     submitBtn.textContent = 'অর্ডার প্রসেস হচ্ছে...';
 
-    const deliveryVal = districtSelect.value === 'sherpur-home' ? 60 : 130;
-    const deliveryLabel = districtSelect.value === 'sherpur-home' ? 'শেরপুর হোম ডেলিভারি' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
+    const activeRadio = formElement.querySelector('input[name="combo-package"]:checked');
+    const isThirdCombo = activeRadio && activeRadio.value === 'combo-3';
+    const deliveryVal = isThirdCombo ? 0 : 130;
+    const deliveryLabel = isThirdCombo ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
     const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
     const grandTotalVal = invoiceGrandTotal.textContent;
 
     const promoCodeVal = promoInput ? promoInput.value.trim() : 'N/A';
+
+    // Calculate product total subtotal
+    let subtotal = product.price * currentQty;
+    if (activeRadio && product.combos) {
+      const selectedCombo = product.combos.find(c => c.id === activeRadio.value);
+      if (selectedCombo && selectedCombo.qty === currentQty) {
+        subtotal = selectedCombo.price;
+      }
+    }
 
     // Optional: Send order data to Google Sheets Web App if configured
     let sheetPromise = Promise.resolve();
@@ -1106,7 +1319,10 @@ function initOrderForm(product) {
         qty: currentQty,
         total: grandTotalVal,
         delivery: deliveryLabel,
-        promo: promoCodeVal
+        promo: promoCodeVal,
+        paymentMethod: paymentMethod,
+        bkashSender: bkashSender,
+        bkashTrx: bkashTrx
       };
 
       sheetPromise = fetch(CONFIG.GOOGLE_SHEET_WEB_APP_URL, {
@@ -1130,11 +1346,14 @@ function initOrderForm(product) {
           customerPhone: phone,
           customerAddress: address,
           productTitle: product.banglaTitle || product.title,
-          productPrice: product.price * currentQty,
+          productPrice: subtotal,
           qty: currentQty,
           deliveryCharge: deliveryVal,
           deliveryLabel: deliveryLabel,
-          grandTotal: grandTotalVal
+          grandTotal: grandTotalVal,
+          paymentMethod: paymentMethod,
+          bkashSender: bkashSender,
+          bkashTrx: bkashTrx
         };
         localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
 
@@ -1277,8 +1496,7 @@ function injectCartDrawerHTML() {
             <div class="space-y-1">
               <label class="block text-xs font-bold text-gray-700">ডেলিভারি এলাকা নির্বাচন করুন <span class="text-red-500">*</span></label>
               <select id="cart-order-district" class="w-full bg-slate-50 border border-gray-200 rounded-xl py-2.5 px-3 text-xs md:text-sm text-gray-900 font-bold cursor-pointer focus:outline-none focus:border-[#0b6275] transition-all">
-                <option value="sherpur-home" selected>শেরপুর হোম ডেলিভারি (৳৬০)</option>
-                <option value="bangladesh-courier">সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (৳১৩০)</option>
+                <option value="bangladesh-courier" selected>সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (৳১৩০)</option>
               </select>
             </div>
           </form>
@@ -1384,28 +1602,61 @@ function renderCartDrawer() {
     if (!product) return;
     
     const div = document.createElement('div');
-    div.className = "flex gap-3 bg-slate-50 p-2.5 rounded-2xl border border-gray-100 items-center justify-between";
+    div.className = "bg-slate-50 p-3.5 rounded-2xl border border-gray-100 flex flex-col gap-2.5";
     
+    // Find current price for this item based on combo matching
+    let currentItemPrice = product.price * item.quantity;
+    let priceBreakdownText = `৳${product.price} × ${item.quantity}`;
+    if (product.combos) {
+      const matchedCombo = product.combos.find(c => c.qty === item.quantity);
+      if (matchedCombo) {
+        currentItemPrice = matchedCombo.price;
+        priceBreakdownText = `${matchedCombo.title}`;
+      }
+    }
+
+    let comboSelectHTML = '';
+    if (product.combos) {
+      comboSelectHTML = `
+        <div class="mt-1 border-t border-gray-100 pt-2.5">
+          <label class="block text-[10px] font-bold text-gray-400 mb-1">📦 প্যাকেজ বা পরিমাণ নির্বাচন করুন:</label>
+          <select onchange="changeCartItemPackage('${product.id}', this.value)" class="w-full bg-white border border-gray-200 rounded-xl px-2 py-1.5 text-[11px] font-bold text-gray-800 cursor-pointer focus:outline-none focus:border-[#0b6275] transition-all">
+            ${product.combos.map(combo => {
+              const isSelected = item.quantity === combo.qty;
+              return `<option value="${combo.qty}" ${isSelected ? 'selected' : ''}>${combo.title} - ৳${combo.price}</option>`;
+            }).join('')}
+            <option value="custom" ${!product.combos.some(c => c.qty === item.quantity) ? 'selected' : ''}>অন্য পরিমাণ (${item.quantity} পিস) - ৳${product.price * item.quantity}</option>
+          </select>
+        </div>
+      `;
+    }
+
     div.innerHTML = `
-      <div class="flex items-center gap-3">
-        <img src="${product.images[0].replace('w=600', 'w=120').replace('q=80', 'q=60')}" alt="${product.banglaTitle}" class="w-12 h-12 rounded-lg object-cover border border-gray-100" />
-        <div>
-          <h5 class="font-bold text-gray-800 text-xs md:text-sm line-clamp-1">${product.banglaTitle || product.title}</h5>
-          <span class="text-[#0b6275] font-black text-xs md:text-sm">৳${product.price}</span>
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <img src="${product.images[0].replace('w=600', 'w=120').replace('q=80', 'q=60')}" alt="${product.banglaTitle || product.title}" class="w-12 h-12 rounded-xl object-cover border border-gray-100 shadow-2xs" />
+          <div>
+            <h5 class="font-bold text-gray-800 text-xs md:text-sm line-clamp-1">${product.banglaTitle || product.title}</h5>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span class="text-[#0b6275] font-black text-xs md:text-sm">৳${currentItemPrice}</span>
+              <span class="text-[10px] text-gray-400 font-medium">(${priceBreakdownText})</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Quantity controls -->
+          <div class="flex items-center bg-white border border-gray-200 rounded-xl px-2 py-1 gap-2.5 shadow-2xs">
+            <button onclick="updateCartQty('${product.id}', -1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">-</button>
+            <span class="font-bold text-xs text-gray-800 min-w-[12px] text-center font-mono">${item.quantity}</span>
+            <button onclick="updateCartQty('${product.id}', 1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">+</button>
+          </div>
+          <!-- Delete button -->
+          <button onclick="removeFromCart('${product.id}')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer active:scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          </button>
         </div>
       </div>
-      <div class="flex items-center gap-2.5">
-        <!-- Quantity controls -->
-        <div class="flex items-center bg-white border border-gray-200 rounded-xl px-2 py-1 gap-2.5 shadow-2xs">
-          <button onclick="updateCartQty('${product.id}', -1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">-</button>
-          <span class="font-bold text-xs text-gray-800 min-w-[12px] text-center">${item.quantity}</span>
-          <button onclick="updateCartQty('${product.id}', 1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">+</button>
-        </div>
-        <!-- Delete button -->
-        <button onclick="removeFromCart('${product.id}')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer active:scale-90">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-      </div>
+      ${comboSelectHTML}
     `;
     itemsList.appendChild(div);
   });
@@ -1415,18 +1666,50 @@ function renderCartDrawer() {
 
 function calculateAndRenderTotals() {
   const cart = getCart();
-  const subtotal = cart.reduce((sum, item) => {
+  let subtotal = 0;
+  let freeDelivery = false;
+
+  cart.forEach(item => {
     const p = products.find(prod => prod.id === item.id);
-    return sum + (p ? p.price * item.quantity : 0);
-  }, 0);
+    if (!p) return;
+
+    if (p.combos) {
+      const matchedCombo = p.combos.find(c => c.qty === item.quantity);
+      if (matchedCombo) {
+        subtotal += matchedCombo.price;
+        if (matchedCombo.id === 'combo-3' || matchedCombo.qty >= 3) {
+          freeDelivery = true;
+        }
+      } else {
+        subtotal += p.price * item.quantity;
+        if (item.quantity >= 3) {
+          freeDelivery = true;
+        }
+      }
+    } else {
+      subtotal += p.price * item.quantity;
+      if (item.quantity >= 3) {
+        freeDelivery = true;
+      }
+    }
+  });
   
-  const districtSelect = document.getElementById('cart-order-district');
-  const deliveryCharge = districtSelect.value === 'sherpur-home' ? 60 : 130;
+  const deliveryCharge = freeDelivery ? 0 : 130;
   const grandTotal = subtotal + deliveryCharge;
   
   document.getElementById('cart-subtotal').textContent = `৳${subtotal}`;
-  document.getElementById('cart-delivery').textContent = `৳${deliveryCharge}`;
+  document.getElementById('cart-delivery').textContent = freeDelivery ? `৳০ (ফ্রি)` : `৳${deliveryCharge}`;
   document.getElementById('cart-grand-total').textContent = `৳${grandTotal}`;
+}
+
+function changeCartItemPackage(productId, qty) {
+  if (qty === 'custom') return;
+  const cart = getCart();
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.quantity = parseInt(qty, 10);
+    saveCart(cart);
+  }
 }
 
 function submitCartOrder(e) {
@@ -1435,7 +1718,6 @@ function submitCartOrder(e) {
   const nameInput = document.getElementById('cart-order-name');
   const phoneInput = document.getElementById('cart-order-phone');
   const addressInput = document.getElementById('cart-order-address');
-  const districtSelect = document.getElementById('cart-order-district');
   
   const name = nameInput.value.trim();
   const phone = phoneInput.value.trim();
@@ -1451,20 +1733,49 @@ function submitCartOrder(e) {
   submitBtn.textContent = 'অর্ডার প্রসেস হচ্ছে...';
   
   const cart = getCart();
-  const subtotal = cart.reduce((sum, item) => {
+  let subtotal = 0;
+  let freeDelivery = false;
+
+  cart.forEach(item => {
     const p = products.find(prod => prod.id === item.id);
-    return sum + (p ? p.price * item.quantity : 0);
-  }, 0);
+    if (!p) return;
+
+    if (p.combos) {
+      const matchedCombo = p.combos.find(c => c.qty === item.quantity);
+      if (matchedCombo) {
+        subtotal += matchedCombo.price;
+        if (matchedCombo.id === 'combo-3' || matchedCombo.qty >= 3) {
+          freeDelivery = true;
+        }
+      } else {
+        subtotal += p.price * item.quantity;
+        if (item.quantity >= 3) {
+          freeDelivery = true;
+        }
+      }
+    } else {
+      subtotal += p.price * item.quantity;
+      if (item.quantity >= 3) {
+        freeDelivery = true;
+      }
+    }
+  });
   
-  const deliveryVal = districtSelect.value === 'sherpur-home' ? 60 : 130;
-  const deliveryLabel = districtSelect.value === 'sherpur-home' ? 'শেরপুর হোম ডেলিভারি' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
+  const deliveryVal = freeDelivery ? 0 : 130;
+  const deliveryLabel = freeDelivery ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
   const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
   const grandTotalVal = `৳${subtotal + deliveryVal}`;
   
   // Format ordered products list for WhatsApp and local receipt
   const productNames = cart.map(item => {
     const p = products.find(prod => prod.id === item.id);
-    return p ? `${p.banglaTitle || p.title} (${item.quantity} পিস)` : '';
+    if (!p) return '';
+    let itemPrice = p.price * item.quantity;
+    if (p.combos) {
+      const matchedCombo = p.combos.find(c => c.qty === item.quantity);
+      if (matchedCombo) itemPrice = matchedCombo.price;
+    }
+    return `${p.banglaTitle || p.title} (${item.quantity} পিস - ৳${itemPrice})`;
   }).filter(Boolean).join(', ');
   
   const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1532,5 +1843,6 @@ window.removeFromCart = removeFromCart;
 window.openCartDrawer = openCartDrawer;
 window.closeCartDrawer = closeCartDrawer;
 window.renderCartDrawer = renderCartDrawer;
+window.changeCartItemPackage = changeCartItemPackage;
 window.calculateAndRenderTotals = calculateAndRenderTotals;
 window.submitCartOrder = submitCartOrder;
