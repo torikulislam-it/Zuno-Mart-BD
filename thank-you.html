@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>অর্ডার সম্পন্ন হয়েছে — Zuno Mart BD</title>
+
+    <!-- Preconnect Domains for Speed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#0b6275',
+              primaryDark: '#074857',
+              primaryLight: '#f0f7f9',
+              accent: '#f59e0b',
+              brandGreen: '#10b981',
+              brandRed: '#ef4444'
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Space Grotesk', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      @media print {
+        body {
+          background-color: white !important;
+          color: black !important;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .print-card {
+          border: 1px solid #e2e8f0 !important;
+          box-shadow: none !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-[#f4f8f9] text-gray-800 antialiased font-sans selection:bg-teal-100 selection:text-teal-900 min-h-screen flex flex-col">
+
+    <!-- Top Tiny Bar -->
+    <div class="bg-[#0b6275] text-white text-center py-2 px-4 text-xs font-bold tracking-wide no-print">
+      <span>🎉 Zuno Mart BD — আপনার বিশ্বস্ত অনলাইন কেনাকাটার সঙ্গী!</span>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-gray-100 shadow-xs sticky top-0 z-40 no-print">
+      <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-2 group">
+          <img src="images/logo.svg" alt="Zuno Mart BD Logo" class="w-10 h-10 rounded-lg shadow-sm" />
+          <div>
+            <h1 class="text-base md:text-lg font-black tracking-tight leading-none text-[#0b6275] group-hover:text-amber-500 transition-colors">
+              Zuno Mart <span class="text-amber-500">BD</span>
+            </h1>
+            <p class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Smart Shopping, Better Living</p>
+          </div>
+        </a>
+
+        <!-- Quick Help -->
+        <div class="flex items-center gap-2">
+          <a href="tel:01315779093" class="bg-[#f0f7f9] hover:bg-teal-100 text-[#0b6275] text-xs font-bold py-2 px-3.5 rounded-xl flex items-center gap-1.5 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone-call"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span class="font-bold">হেল্পলাইন</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-8 md:py-12 flex flex-col items-center justify-center">
+      
+      <!-- Success Banner Block -->
+      <div class="w-full text-center space-y-4 mb-8 no-print">
+        <div class="w-20 h-20 bg-teal-50 border-4 border-white text-[#0b6275] rounded-full flex items-center justify-center mx-auto text-4xl font-black shadow-lg animate-bounce ring-4 ring-teal-100">
+          ✓
+        </div>
+        <div class="space-y-1">
+          <span class="inline-block bg-[#0b6275]/10 text-[#0b6275] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest font-mono">ORDER COMPLETED</span>
+          <h2 class="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে!</h2>
+        </div>
+        <p class="text-sm md:text-base text-gray-500 font-semibold max-w-lg mx-auto leading-relaxed">
+          Zuno Mart BD থেকে কেনাকাটা করার জন্য আপনাকে ধন্যবাদ। আপনার অর্ডারটি ভেরিফাই করতে খুব শীঘ্রই আমাদের একজন প্রতিনিধি আপনার মোবাইল নাম্বারে <span class="text-[#0b6275] font-black underline">সরাসরি ফোন কল করবেন</span>।
+        </p>
+      </div>
+
+      <!-- Invoice Sheet / Invoice Detail Card -->
+      <div id="thank-you-card" class="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 w-full shadow-xl relative overflow-hidden print-card">
+        
+        <!-- Header of Invoice -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 mb-6 border-b border-dashed border-gray-100">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <img src="images/logo.svg" alt="Zuno Mart BD Logo" class="w-8 h-8 rounded-lg shadow-xs hidden print:block" />
+              <h3 class="text-xl font-black text-[#0b6275] uppercase font-display">ZUNO MART BD</h3>
+            </div>
+            <p class="text-xs text-gray-400 font-bold">সেরা পণ্য, সাশ্রয়ী দাম এবং বিশ্বস্ত কাস্টমার সার্ভিস</p>
+          </div>
+          <div class="text-left md:text-right">
+            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">ইনভয়েস আইডি (Tracking ID):</span>
+            <div id="invoice-id" class="text-base font-mono font-black text-slate-800 bg-slate-100 px-3 py-1 rounded-lg mt-0.5 inline-block">ORD-XXXXXX</div>
+          </div>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs md:text-sm border-b border-dashed border-gray-100 pb-6 mb-6">
+          <div class="space-y-3.5">
+            <h4 class="text-xs font-black text-[#0b6275] uppercase tracking-wider border-b pb-1">গ্রাহকের বিবরণ:</h4>
+            <div class="space-y-2">
+              <div class="flex">
+                <span class="w-24 text-gray-400 font-bold">নাম:</span>
+                <span id="cust-name" class="text-gray-800 font-extrabold">...</span>
+              </div>
+              <div class="flex">
+                <span class="w-24 text-gray-400 font-bold">মোবাইল নাম্বার:</span>
+                <span id="cust-phone" class="text-gray-800 font-mono font-extrabold">...</span>
+              </div>
+              <div class="flex">
+                <span class="w-24 text-gray-400 font-bold">ডেলিভারি ঠিকানা:</span>
+                <span id="cust-address" class="text-gray-800 leading-relaxed font-extrabold flex-1">...</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3.5">
+            <h4 class="text-xs font-black text-[#0b6275] uppercase tracking-wider border-b pb-1">অর্ডারের বিবরণ:</h4>
+            <div class="space-y-2">
+              <div class="flex">
+                <span class="w-24 text-gray-400 font-bold">অর্ডার তারিখ:</span>
+                <span id="order-date" class="text-gray-800 font-extrabold">...</span>
+              </div>
+              <div class="flex">
+                <span class="w-24 text-gray-400 font-bold">ডেলিভারি মেথড:</span>
+                <span id="order-delivery" class="text-gray-800 font-extrabold">...</span>
+              </div>
+              <div class="flex">
+                <span class="w-24 text-gray-400 font-bold">পেমেন্ট টাইপ:</span>
+                <span class="text-emerald-600 font-extrabold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">ক্যাশ অন ডেলিভারি (COD)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Invoice Table -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-black text-[#0b6275] uppercase tracking-wider mb-2">ক্রয়কৃত পণ্যের বিবরণী:</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs md:text-sm font-semibold">
+              <thead>
+                <tr class="border-b border-gray-100 text-[#0b6275] font-black uppercase text-[11px]">
+                  <th class="py-2.5">প্রোডাক্টের নাম</th>
+                  <th class="py-2.5 text-center">পরিমাণ</th>
+                  <th class="py-2.5 text-right">মূল্য</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                <tr>
+                  <td id="invoice-product-title" class="py-3.5 text-gray-800 font-extrabold text-xs md:text-sm">...</td>
+                  <td id="invoice-product-qty" class="py-3.5 text-center text-gray-900 font-mono font-bold">x1</td>
+                  <td id="invoice-product-price" class="py-3.5 text-right text-gray-900 font-mono font-bold">৳0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Price Math block -->
+        <div class="border-t border-gray-100 mt-4 pt-4 flex flex-col items-end text-xs md:text-sm">
+          <div class="w-full md:w-80 space-y-2.5">
+            <div class="flex justify-between font-semibold">
+              <span class="text-gray-400">সাবটোটাল মূল্য:</span>
+              <span id="invoice-subtotal" class="font-mono text-gray-900 font-bold">৳0</span>
+            </div>
+            <div class="flex justify-between font-semibold">
+              <span class="text-gray-400">ডেলিভারি চার্জ:</span>
+              <span id="invoice-delivery-charge" class="font-mono text-gray-900 font-bold">৳0</span>
+            </div>
+            <div class="flex justify-between border-t border-dashed border-gray-200 pt-2.5 text-sm">
+              <span class="font-black text-[#0b6275]">সর্বমোট প্রদেয় মূল্য (ক্যাশ অন ডেলিভারি):</span>
+              <span id="invoice-grand-total" class="font-mono font-black text-[#0b6275] text-base md:text-lg">৳0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note details -->
+        <div class="bg-[#f0f7f9] rounded-2xl p-4 mt-6 text-[11px] md:text-xs text-gray-500 border border-teal-50 leading-relaxed font-semibold">
+          <p class="text-[#0b6275] font-black mb-1">📢 বিশেষ নির্দেশনা:</p>
+          <ul class="space-y-1 list-disc pl-4 text-gray-600">
+            <li>পরবর্তী ৫ থেকে ১৫ মিনিটের মধ্যে আমাদের কাস্টমার প্রতিনিধি আপনাকে এই নাম্বারে ফোন করবেন। অনুগ্রহ করে আপনার মোবাইল ফোনটি সচল রাখুন।</li>
+            <li>আপনার ফোন রিসিভ হওয়ার পর অর্ডারটি কনফার্ম করে প্যাকেজিং ও কুরিয়ারে পাঠানো হবে।</li>
+            <li>পণ্য ডেলিভারি পাওয়ার পর রাইডারের সামনে ভালোভাবে দেখে চেক করে পেমেন্ট করার জন্য অনুরোধ করা হলো।</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-8 flex flex-col sm:flex-row gap-3.5 w-full max-w-md no-print justify-center">
+        <button onclick="window.print()" class="flex-1 bg-white hover:bg-slate-50 text-gray-800 font-extrabold text-xs md:text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all border border-gray-200 shadow-xs cursor-pointer">
+          🖨️ ইনভয়েস প্রিন্ট করুন
+        </button>
+        <a href="index.html" class="flex-1 bg-gradient-to-r from-[#0b6275] to-[#074857] hover:from-[#074857] hover:to-[#074857] text-white font-extrabold text-xs md:text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer text-center">
+          🏠 হোম পেজে ফিরে যান
+        </a>
+      </div>
+
+    </main>
+
+    <!-- Professional Bottom Trust Footer -->
+    <footer class="bg-[#074857] text-teal-100 text-xs py-8 border-t border-[#053743] mt-12 no-print">
+      <div class="max-w-4xl mx-auto px-4 text-center space-y-4">
+        <!-- Logo -->
+        <div class="flex items-center justify-center gap-2">
+          <img src="images/logo.svg" alt="Zuno Mart BD Logo" class="w-8 h-8 rounded-lg shadow-md" />
+          <h4 class="text-white font-extrabold text-sm uppercase tracking-wider">Zuno Mart BD</h4>
+        </div>
+        <p class="max-w-lg mx-auto font-medium opacity-80 text-[11px] leading-relaxed">
+          আমরা শেরপুর ও সারা বাংলাদেশে দ্রুত ক্যাশ অন ডেলিভারি এবং ১00% বিশ্বস্ত কাস্টমার সাপোর্ট নিশ্চিত করে থাকি। যেকোনো প্রয়োজনে আমাদের হটলাইনে সরাসরি যোগাযোগ করুন।
+        </p>
+        <div class="flex items-center justify-center gap-6 font-bold text-[11px] pt-1">
+          <span>📞 হেল্পলাইন: 01315779093</span>
+          <span>🟢 WhatsApp: 01315779093</span>
+        </div>
+        <!-- Copyright -->
+        <p class="text-[10px] opacity-50 pt-2 border-t border-teal-800">
+          &copy; 2026 Zuno Mart BD. All Rights Reserved. Crafted with absolute standard conversion patterns.
+        </p>
+      </div>
+    </footer>
+
+    <!-- JS to populate invoice -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Read order from localStorage
+        const orderStr = localStorage.getItem('lastOrder');
+        if (orderStr) {
+          try {
+            const order = JSON.parse(orderStr);
+            
+            // Populating UI fields
+            document.getElementById('invoice-id').textContent = order.trackingId || 'ORD-UNKNOWN';
+            document.getElementById('cust-name').textContent = order.customerName || 'N/A';
+            document.getElementById('cust-phone').textContent = order.customerPhone || 'N/A';
+            document.getElementById('cust-address').textContent = order.customerAddress || 'N/A';
+            
+            // Format order date
+            const dateStr = order.date || new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
+            document.getElementById('order-date').textContent = dateStr;
+            
+            document.getElementById('order-delivery').textContent = order.deliveryLabel || 'হোম ডেলিভারি';
+            
+            document.getElementById('invoice-product-title').textContent = order.productTitle || 'প্রিমিয়াম পণ্য';
+            document.getElementById('invoice-product-qty').textContent = `x${order.qty || 1}`;
+            document.getElementById('invoice-product-price').textContent = `৳${order.productPrice || 0}`;
+            
+            document.getElementById('invoice-subtotal').textContent = `৳${order.productPrice || 0}`;
+            document.getElementById('invoice-delivery-charge').textContent = `৳${order.deliveryCharge || 0}`;
+            document.getElementById('invoice-grand-total').textContent = order.grandTotal || '৳0';
+          } catch (e) {
+            console.error("Error parsing order details:", e);
+            fallbackInvoice();
+          }
+        } else {
+          fallbackInvoice();
+        }
+
+        function fallbackInvoice() {
+          // Fallback static elements if accessed directly
+          document.getElementById('invoice-id').textContent = 'ORD-DEMO';
+          document.getElementById('cust-name').textContent = 'কাস্টমার টেস্ট';
+          document.getElementById('cust-phone').textContent = '01315779093';
+          document.getElementById('cust-address').textContent = 'শেরপুর, ময়মনসিংহ, বাংলাদেশ';
+          document.getElementById('order-date').textContent = new Date().toLocaleDateString('bn-BD');
+          document.getElementById('order-delivery').textContent = 'হোম ডেলিভারি';
+          document.getElementById('invoice-product-title').textContent = 'প্রিমিয়াম ই-কমার্স পণ্য';
+          document.getElementById('invoice-product-qty').textContent = 'x1';
+          document.getElementById('invoice-product-price').textContent = '৳০';
+          document.getElementById('invoice-subtotal').textContent = '৳০';
+          document.getElementById('invoice-delivery-charge').textContent = '৳০';
+          document.getElementById('invoice-grand-total').textContent = '৳০';
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -3,6 +3,14 @@
  * Built for cPanel/shared hosting (no Node.js/React required)
  */
 
+// Global Configuration
+const CONFIG = {
+  // Option A: Google Sheet Apps Script Web App URL
+  // Paste your deployed Google Apps Script URL here to automatically log orders!
+  // Example: "https://script.google.com/macros/s/AKfycb.../exec"
+  GOOGLE_SHEET_WEB_APP_URL: ""
+};
+
 // Global Products Data
 const products = [
   {
@@ -433,7 +441,7 @@ function initHomePage() {
           <span class="absolute top-2 right-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] md:text-xs font-bold px-2.5 py-1 rounded-full shadow-md z-10 animate-pulse">
             ${product.discountBadge}
           </span>
-          <img src="${product.images[0]}" alt="${product.title}" loading="lazy" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+          <img src="${product.images[0].replace('w=600', 'w=350').replace('q=80', 'q=60')}" alt="${product.title}" loading="lazy" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
           <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <span class="bg-white/95 text-gray-900 p-2 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -615,7 +623,7 @@ function initGallerySlider(product) {
   let currentIndex = 0;
 
   // Set initial main image
-  mainImage.src = product.images[0];
+  mainImage.src = product.images[0].replace('q=80', 'q=70');
 
   // Render thumbnails
   thumbsContainer.innerHTML = '';
@@ -628,7 +636,7 @@ function initGallerySlider(product) {
       thumb.className = `w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${
         idx === 0 ? 'border-amber-500 scale-105 shadow-md' : 'border-transparent opacity-70 hover:opacity-100'
       }`;
-      thumb.innerHTML = `<img src="${img}" alt="thumbnail" class="w-full h-full object-cover" />`;
+      thumb.innerHTML = `<img src="${img.replace('w=600', 'w=120').replace('q=80', 'q=60')}" alt="thumbnail" class="w-full h-full object-cover" loading="lazy" />`;
       thumb.addEventListener('click', () => selectSlide(idx));
       thumbsContainer.appendChild(thumb);
 
@@ -650,7 +658,7 @@ function initGallerySlider(product) {
     // Animate transition briefly using classes
     mainImage.classList.add('opacity-40');
     setTimeout(() => {
-      mainImage.src = product.images[currentIndex];
+      mainImage.src = product.images[currentIndex].replace('q=80', 'q=70');
       mainImage.classList.remove('opacity-40');
     }, 100);
 
@@ -941,7 +949,7 @@ function initOrderForm(product) {
   function calculateTotal() {
     const productPrice = product.price;
     const subtotal = productPrice * currentQty;
-    const deliveryCharge = districtSelect.value === 'dhaka-inside' ? 80 : 130;
+    const deliveryCharge = districtSelect.value === 'sherpur-home' ? 60 : 130;
     const grandTotal = Math.max(0, subtotal + deliveryCharge - promoDiscount);
 
     // Update form labels
@@ -978,29 +986,36 @@ function initOrderForm(product) {
     calculateTotal();
   });
 
-  // Bind promo code validation
+  // Bind promo code validation (optional, safe fallback)
   window.triggerApplyPromo = () => {
+    if (!promoInput) return;
     const code = promoInput.value.trim().toUpperCase();
     const promoSuccessLabel = document.getElementById('promo-success-msg');
     const promoErrorLabel = document.getElementById('promo-error-msg');
 
-    promoSuccessLabel.classList.add('hidden');
-    promoErrorLabel.classList.add('hidden');
+    if (promoSuccessLabel) promoSuccessLabel.classList.add('hidden');
+    if (promoErrorLabel) promoErrorLabel.classList.add('hidden');
     promoDiscount = 0;
 
     if (!code) return;
 
     if (code === 'FATAFATI' || code === 'FREE50' || code === 'DISCOUNT50') {
       promoDiscount = 50;
-      promoSuccessLabel.textContent = '৳৫০ ডিসকাউন্ট সফলভাবে প্রয়োগ করা হয়েছে!';
-      promoSuccessLabel.classList.remove('hidden');
+      if (promoSuccessLabel) {
+        promoSuccessLabel.textContent = '৳৫০ ডিসকাউন্ট সফলভাবে প্রয়োগ করা হয়েছে!';
+        promoSuccessLabel.classList.remove('hidden');
+      }
     } else if (code === 'SAVE100' && (product.price * currentQty) >= 1000) {
       promoDiscount = 100;
-      promoSuccessLabel.textContent = '৳১০০ ডিসকাউন্ট সফলভাবে প্রয়োগ করা হয়েছে!';
-      promoSuccessLabel.classList.remove('hidden');
+      if (promoSuccessLabel) {
+        promoSuccessLabel.textContent = '৳১০০ ডিসকাউন্ট সফলভাবে প্রয়োগ করা হয়েছে!';
+        promoSuccessLabel.classList.remove('hidden');
+      }
     } else {
-      promoErrorLabel.textContent = 'অকার্যকর বা মেয়াদোত্তীর্ণ প্রোমো কোড!';
-      promoErrorLabel.classList.remove('hidden');
+      if (promoErrorLabel) {
+        promoErrorLabel.textContent = 'অকার্যকর বা মেয়াদোত্তীর্ণ প্রোমো কোড!';
+        promoErrorLabel.classList.remove('hidden');
+      }
     }
 
     calculateTotal();
@@ -1011,7 +1026,7 @@ function initOrderForm(product) {
     const name = document.getElementById('order-name').value.trim();
     const phone = document.getElementById('order-phone').value.trim();
     const address = document.getElementById('order-address').value.trim();
-    const delivery = districtSelect.value === 'dhaka-inside' ? 'ঢাকার ভেতরে' : 'ঢাকার বাইরে';
+    const delivery = districtSelect.value === 'sherpur-home' ? 'শেরপুর হোম ডেলিভারি' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
     const finalPrice = invoiceGrandTotal.textContent;
 
     const message = `হ্যালো! আমি "${product.title}" অর্ডার করতে চাই।\n` +
@@ -1024,13 +1039,14 @@ function initOrderForm(product) {
 
     const waBtn = document.getElementById('whatsapp-order-btn');
     if (waBtn) {
-      waBtn.href = `https://wa.me/8801334747918?text=${encodeURIComponent(message)}`;
+      waBtn.href = `https://wa.me/8801315779093?text=${encodeURIComponent(message)}`;
     }
   }
 
   // Event listeners on form inputs to update WhatsApp text dynamically
   ['order-name', 'order-phone', 'order-address'].forEach(id => {
-    document.getElementById(id).addEventListener('input', generateSocialLinks);
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', generateSocialLinks);
   });
   districtSelect.addEventListener('change', generateSocialLinks);
 
@@ -1048,59 +1064,66 @@ function initOrderForm(product) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'অর্ডার প্রসেস হচ্ছে...';
 
-    // Simulate database receipt generation
+    const deliveryVal = districtSelect.value === 'sherpur-home' ? 60 : 130;
+    const deliveryLabel = districtSelect.value === 'sherpur-home' ? 'শেরপুর হোম ডেলিভারি' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
+    const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+    const grandTotalVal = invoiceGrandTotal.textContent;
+
+    const promoCodeVal = promoInput ? promoInput.value.trim() : 'N/A';
+
+    // Optional: Send order data to Google Sheets Web App if configured
+    let sheetPromise = Promise.resolve();
+    if (CONFIG.GOOGLE_SHEET_WEB_APP_URL) {
+      const orderData = {
+        orderId: trackingId,
+        date: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+        name: name,
+        phone: phone,
+        address: address,
+        product: product.title,
+        qty: currentQty,
+        total: grandTotalVal,
+        delivery: deliveryLabel,
+        promo: promoCodeVal
+      };
+
+      sheetPromise = fetch(CONFIG.GOOGLE_SHEET_WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Avoids preflight CORS issues in some browsers
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: JSON.stringify(orderData)
+      }).catch(err => console.error("Error logging order to Google Sheet:", err));
+    }
+
+    // Process checkout and complete order
     setTimeout(() => {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart fill-black"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-        <span>অর্ডার কনফার্ম করুন</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
-      `;
+      sheetPromise.finally(() => {
+        // Save order details to localStorage for the professional thank-you page
+        const lastOrder = {
+          trackingId: trackingId,
+          date: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+          customerName: name,
+          customerPhone: phone,
+          customerAddress: address,
+          productTitle: product.banglaTitle || product.title,
+          productPrice: product.price * currentQty,
+          qty: currentQty,
+          deliveryCharge: deliveryVal,
+          deliveryLabel: deliveryLabel,
+          grandTotal: grandTotalVal
+        };
+        localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
 
-      const deliveryVal = districtSelect.value === 'dhaka-inside' ? 80 : 130;
-      const deliveryLabel = districtSelect.value === 'dhaka-inside' ? 'ঢাকার ভেতরে' : 'ঢাকার বাইরে';
-      const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
+        // Update cart count persistency
+        incrementCartCountBy(currentQty);
 
-      // Populate success invoice modal
-      document.getElementById('modal-tracking-id').textContent = trackingId;
-      document.getElementById('modal-customer-name').textContent = name;
-      document.getElementById('modal-customer-phone').textContent = phone;
-      document.getElementById('modal-customer-address').textContent = `${address} (${deliveryLabel})`;
-      document.getElementById('modal-product-summary').textContent = `${product.banglaTitle || product.title} (x${currentQty})`;
-      document.getElementById('modal-product-price').textContent = `৳${product.price * currentQty}`;
-      document.getElementById('modal-delivery-charge').textContent = `৳${deliveryVal}`;
-      document.getElementById('modal-grand-total').textContent = invoiceGrandTotal.textContent;
-
-      // Update cart count persistency
-      incrementCartCountBy(currentQty);
-
-      // Open Modal
-      const orderSuccessModal = document.getElementById('order-success-modal');
-      orderSuccessModal.classList.remove('hidden');
-      orderSuccessModal.classList.add('flex');
-
-      // Reset form
-      formElement.reset();
-      currentQty = 1;
-      qtyInput.textContent = '1';
-      promoDiscount = 0;
-      calculateTotal();
-      generateSocialLinks();
+        // Redirect to professional Thank You page
+        window.location.href = 'thank-you.html';
+      });
     }, 1200);
   });
-
-  // Close invoice modal trigger
-  window.triggerCloseSuccessModal = () => {
-    const orderSuccessModal = document.getElementById('order-success-modal');
-    orderSuccessModal.classList.add('hidden');
-    orderSuccessModal.classList.remove('flex');
-    window.location.href = 'index.html';
-  };
-
-  // Print invoice trigger
-  window.triggerPrintInvoice = () => {
-    window.print();
-  };
 
   // Run initial calculations
   calculateTotal();

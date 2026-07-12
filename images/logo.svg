@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <!-- Background with deep teal color matching logo -->
+  <rect width="500" height="500" fill="#0b6275" />
+  
+  <!-- Grid background lines -->
+  <g stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.1">
+    <line x1="50" y1="0" x2="50" y2="500" />
+    <line x1="100" y1="0" x2="100" y2="500" />
+    <line x1="150" y1="0" x2="150" y2="500" />
+    <line x1="200" y1="0" x2="200" y2="500" />
+    <line x1="250" y1="0" x2="250" y2="500" />
+    <line x1="300" y1="0" x2="300" y2="500" />
+    <line x1="350" y1="0" x2="350" y2="500" />
+    <line x1="400" y1="0" x2="400" y2="500" />
+    <line x1="450" y1="0" x2="450" y2="500" />
+    
+    <line x1="0" y1="50" x2="500" y2="50" />
+    <line x1="0" y1="100" x2="500" y2="100" />
+    <line x1="0" y1="150" x2="500" y2="150" />
+    <line x1="0" y1="200" x2="500" y2="200" />
+    <line x1="0" y1="250" x2="500" y2="250" />
+    <line x1="0" y1="300" x2="500" y2="300" />
+    <line x1="0" y1="350" x2="500" y2="350" />
+    <line x1="0" y1="400" x2="500" y2="400" />
+    <line x1="0" y1="450" x2="500" y2="450" />
+  </g>
+  
+  <!-- White icon of shopping cart filled with goods -->
+  <g fill="#ffffff" transform="translate(170, 95)">
+    <!-- Grocery Goods inside cart -->
+    <!-- Carton (left) -->
+    <path d="M12,45 L12,25 L23,17 L36,25 L36,45 Z" />
+    <polygon points="12,25 24,14 36,25 24,20" opacity="0.9" />
+    <!-- Round bowl/fruit -->
+    <path d="M40,45 C40,25 70,25 70,45 Z" />
+    <!-- Bottle (middle) -->
+    <rect x="74" y="24" width="28" height="32" rx="4" />
+    <rect x="81" y="10" width="14" height="14" rx="2" />
+    <!-- Baguette (right) -->
+    <rect x="104" y="14" width="22" height="60" rx="10" transform="rotate(15 115 44)" />
+    <!-- Baguette slash cuts -->
+    <line x1="109" y1="20" x2="120" y2="26" stroke="#0b6275" stroke-width="3" stroke-linecap="round" />
+    <line x1="112" y1="32" x2="123" y2="38" stroke="#0b6275" stroke-width="3" stroke-linecap="round" />
+    <line x1="115" y1="44" x2="126" y2="50" stroke="#0b6275" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Basket Body -->
+    <path d="M0,25 L144,25 L124,104 L26,104 Z" />
+    <!-- Handle (extending left) -->
+    <path d="M0,25 L-24,25 L-14,75 L-24,75 L-26,60 L-18,33 L-4,33 Z" />
+    
+    <!-- Wheel -->
+    <circle cx="72" cy="144" r="24" />
+    <circle cx="72" cy="144" r="10" fill="#0b6275" />
+  </g>
+
+  <!-- Typography matching logo -->
+  <text x="250" y="360" font-family="'Inter', 'Outfit', 'Montserrat', 'Helvetica', sans-serif" font-weight="900" font-size="46" fill="#ffffff" text-anchor="middle" letter-spacing="1">ZUNO MART BD</text>
+  <text x="250" y="412" font-family="'Inter', 'Outfit', 'Montserrat', 'Helvetica', sans-serif" font-weight="600" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="9" opacity="0.9">SINCE 2026</text>
+</svg>
