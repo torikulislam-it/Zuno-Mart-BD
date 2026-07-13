@@ -167,7 +167,7 @@
           </div>
 
           <!-- Thumbnails Row -->
-          <div id="slider-thumbnails" class="flex gap-2.5 overflow-x-auto justify-start py-1 px-0.5">
+          <div id="slider-thumbnails" class="flex gap-2.5 overflow-x-auto justify-start py-1 px-0.5 no-scrollbar">
             <!-- Thumbnail cards added dynamically -->
           </div>
         </div>
@@ -323,7 +323,7 @@
               <div class="space-y-1">
                 <label class="block text-xs md:text-sm font-bold text-gray-200">ডেলিভারি এলাকা নির্বাচন করুন <span class="text-amber-500">*</span></label>
                 <select id="order-district" class="w-full bg-zinc-900/60 border border-zinc-700 rounded-xl py-3 px-4 text-xs md:text-sm text-white font-bold cursor-pointer focus:outline-none focus:border-teal-400 transition-all">
-                  <option value="bangladesh-courier" selected>সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (৳১৩০)</option>
+                  <option value="bangladesh-courier" selected>সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি</option>
                 </select>
               </div>
 
@@ -339,15 +339,15 @@
                       <p class="text-[10px] text-gray-400 font-semibold">পণ্য হাতে পেয়ে পেমেন্ট করুন</p>
                     </div>
                   </label>
-                  <!-- bKash -->
+                  <!-- bKash & Nagad -->
                   <label id="payment-bkash-label" class="flex items-center gap-3 bg-zinc-900/40 border border-zinc-700 hover:border-pink-500 rounded-2xl p-4 cursor-pointer transition-all select-none">
                     <input type="radio" name="payment-method" value="bkash" class="accent-pink-500 w-4 h-4 cursor-pointer" />
                     <div>
                       <p class="text-xs md:text-sm font-black text-pink-400 flex items-center gap-1.5">
-                        বিকাশ অগ্রিম পেমেন্ট
+                        বিকাশ/নগদ অগ্রিম পেমেন্ট
                         <span class="bg-pink-500/20 text-pink-400 border border-pink-500/30 text-[9px] font-black px-1.5 py-0.5 rounded-full">১০% ছাড়!</span>
                       </p>
-                      <p class="text-[10px] text-gray-400 font-semibold">বিকাশে অগ্রিম সেন্ড মানি করুন</p>
+                      <p class="text-[10px] text-gray-400 font-semibold">বিকাশ বা নগদে অগ্রিম সেন্ড মানি করুন</p>
                     </div>
                   </label>
                 </div>
@@ -356,19 +356,26 @@
               <!-- bKash Verification Inputs -->
               <div id="bkash-fields-container" class="hidden bg-pink-950/20 border border-pink-900/40 rounded-2xl p-4 md:p-5 space-y-3.5 mt-2 transition-all">
                 <div class="bg-pink-500/10 border border-pink-500/20 rounded-xl p-3 text-xs text-pink-300 space-y-1.5 leading-relaxed">
-                  <p class="font-black">📢 বিকাশ অগ্রিম পেমেন্ট নির্দেশনাবলী:</p>
-                  <p class="font-semibold">১. আমাদের বিকাশ পার্সোনাল নাম্বারে <span class="text-white font-black underline bg-pink-600 px-1.5 py-0.5 rounded">01909793851</span> সেন্ড মানি করুন।</p>
-                  <p class="font-semibold">২. পেমেন্ট করার পর নিচে আপনার শেন্ডার বিকাশ নম্বর ও ট্রানজেকশন ID (TrxID) প্রদান করুন।</p>
+                  <p class="font-black">📢 বিকাশ ও নগদ অগ্রিম পেমেন্ট নির্দেশনাবলী:</p>
+                  <p class="font-semibold">১. আমাদের বিকাশ বা নগদ পার্সোনাল নাম্বারে <span class="text-white font-black underline bg-pink-600 px-1.5 py-0.5 rounded">01909793851</span> সেন্ড মানি করুন।</p>
+                  <p class="font-semibold">২. পেমেন্ট করার পর নিচে আপনার শেন্ডার নম্বর ও ট্রানজেকশন ID (TrxID) প্রদান করুন।</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div class="space-y-1 font-semibold">
-                    <label class="block text-xs font-bold text-pink-300">যে বিকাশ নম্বর থেকে পাঠিয়েছেন <span class="text-amber-500">*</span></label>
+                    <label class="block text-xs font-bold text-pink-300">যে নম্বর থেকে পাঠিয়েছেন <span class="text-amber-500">*</span></label>
                     <input id="order-bkash-sender" type="tel" placeholder="যেমন: 01xxxxxxxxx" class="w-full bg-zinc-900/80 border border-zinc-700 rounded-xl py-2.5 px-3.5 text-xs text-white focus:outline-none focus:border-pink-400" />
                   </div>
                   <div class="space-y-1 font-semibold">
-                    <label class="block text-xs font-bold text-pink-300">বিকাশ ট্রানজেকশন ID (TrxID) <span class="text-amber-500">*</span></label>
+                    <label class="block text-xs font-bold text-pink-300">ট্রানজেকশন ID (TrxID) <span class="text-amber-500">*</span></label>
                     <input id="order-bkash-trx" type="text" placeholder="যেমন: 8X9Y7Z6W" class="w-full bg-zinc-900/80 border border-zinc-700 rounded-xl py-2.5 px-3.5 text-xs text-white focus:outline-none focus:border-pink-400 font-mono" />
                   </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-pink-900/20 text-center">
+                  <p class="text-[10px] text-pink-300/80 mb-2 font-semibold">অথবা অগ্রিম পেমেন্ট করে সরাসরি অর্ডার করতে হোয়াটসঅ্যাপে মেসেজ দিন</p>
+                  <a href="https://wa.me/8801315779093" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black px-4 py-2 rounded-full transition-all shadow-md active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    হোয়াটসঅ্যাপে মেসেজ দিন 01315779093
+                  </a>
                 </div>
               </div>
 
@@ -602,8 +609,18 @@
         <div class="space-y-3">
           <h4 class="text-white font-extrabold text-sm uppercase tracking-wider">ডেলিভারি এরিয়া</h4>
           <ul class="space-y-2 font-semibold text-teal-100/80">
-            <li>• শেরপুর হোম ডেলিভারি (৬০ টাকা)</li>
-            <li>• সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (১৩০ টাকা)</li>
+            <li>• সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি</li>
+          </ul>
+
+          <h4 class="text-white font-extrabold text-sm uppercase tracking-wider pt-4">প্রয়োজনীয় লিঙ্ক</h4>
+          <ul class="space-y-2 font-semibold text-teal-100/80">
+            <li><a href="about-us.html" class="hover:text-amber-400 transition-colors">• আমাদের সম্পর্কে</a></li>
+            <li><a href="contact-us.html" class="hover:text-amber-400 transition-colors">• যোগাযোগ</a></li>
+            <li><a href="faq.html" class="hover:text-amber-400 transition-colors">• জিজ্ঞাসিত প্রশ্নাবলী (FAQ)</a></li>
+            <li><a href="privacy-policy.html" class="hover:text-amber-400 transition-colors">• গোপনীয়তা নীতি</a></li>
+            <li><a href="terms-conditions.html" class="hover:text-amber-400 transition-colors">• শর্তাবলী</a></li>
+            <li><a href="refund-return.html" class="hover:text-amber-400 transition-colors">• রিফান্ড ও রিটার্ন নীতি</a></li>
+            <li><a href="shipping-delivery.html" class="hover:text-amber-400 transition-colors">• ডেলিভারি পলিসি</a></li>
           </ul>
         </div>
 
@@ -612,8 +629,12 @@
           <h4 class="text-white font-extrabold text-sm uppercase tracking-wider">যোগাযোগ করুন</h4>
           <p class="font-semibold leading-relaxed text-teal-100/80">
             হেল্পলাইন: <span class="text-amber-400 font-bold font-mono">01315779093</span><br />
-            ইমেইল: support@zunomartbd.com<br />
-            ঠিকানা: শেরপুর, ময়মনসিংহ, বাংলাদেশ।
+            ইমেইল: support@zunomartbd.shop<br />
+            ঠিকানা: শেরপুর, ময়মনসিংহ, বাংলাদেশ।<br />
+            <a href="https://facebook.com/ZunoMartBD" target="_blank" class="text-white hover:text-amber-400 flex items-center gap-1.5 mt-2 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              ফেসবুক পেজ
+            </a>
           </p>
           <div class="pt-2 flex items-center gap-3">
             <span class="text-white font-bold text-xs uppercase">পেমেন্ট গেটওয়ে:</span>

@@ -27,6 +27,15 @@ body {
   font-family: var(--font-mono);
 }
 
+/* Hide scrollbar for Chrome, Safari, Opera, Edge, Firefox */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
 /* Custom Sleek Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

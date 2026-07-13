@@ -14,23 +14,26 @@ const CONFIG = {
 const products = [
   {
     id: 'soft-toothbrush',
-    title: "Mirco-Nano Ultra soft Toothbrush 10000 bristles",
-    banglaTitle: "Mirco-Nano Ultra soft Toothbrush 10000 bristles",
+    title: "Micro-Nano Ultra soft Toothbrush 10000 bristles",
+    banglaTitle: "Micro-Nano Ultra soft Toothbrush 10000 bristles",
     subtitle: "দাঁত ও মাড়ির সুরক্ষায় ১০০% কার্যকরী আল্ট্রা ফাইন মাইক্রো ন্যানো টুথব্রাশ",
     price: 590,
     originalPrice: 1180,
     discountBadge: "৫০% ছাড়",
     soldCount: "১২৪০ জন কিনেছেন",
     images: [
-      "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=600&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1559599101-f09722fb4948?w=600&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80"
+      "https://i.postimg.cc/T36CZf0Y/1773477951360-ixhjcb.webp",
+      "https://i.postimg.cc/NFZmBjBt/10000-Superfine-Ultra-Soft-Bristles-Toothbrush-1.jpg",
+      "https://i.postimg.cc/BbRH4n40/10000-Superfine-Ultra.jpg",
+      "https://i.postimg.cc/dV6mpdDR/1774170509662-zl4r39.png",
+      "https://i.postimg.cc/sgs4TKfJ/1774170335879-ke6mm1.png",
+      "https://i.postimg.cc/sgs4TKf0/1774170375673-obsogf.png"
     ],
     features: [
-      "১২,০০০ এর বেশি আল্ট্রা ফাইন মাইক্রো-ন্যানো ব্রিসলস যা দাঁতের প্রতিটি কোণ পরিষ্কার করে।",
+      "১০,০০০ এর বেশি আল্ট্রা ফাইন মাইক্রো-ন্যানো ব্রিসলস যা দাঁতের প্রতিটি কোণ পরিষ্কার করে।",
       "একদম নরম এবং আরামদায়ক, কোনো প্রকার রক্তক্ষরণ বা ব্যথার সম্ভাবনা নেই।",
       "যেকোনো বয়সের মানুষের জন্য এবং সেনসিটিভ দাঁত ও মাড়ির জন্য অত্যন্ত কার্যকরী।",
-      "৪টি ভিন্ন রঙের আকর্ষণীয় জিপার প্যাকেজ যা সহজে বহনযোগ্য।"
+      "৪টি ভিন্ন রঙের আকর্ষণীয় tube ar modde thakbe যা সহজে বহনযোগ্য।"
     ],
     longBenefitsTitle: "কেন ব্যবহার করবেন আমাদের আল্ট্রা ফাইন টুথব্রাশ?",
     longBenefits: [
@@ -84,14 +87,17 @@ const products = [
     title: "Premium Bamboo Toothbrush  with Ten thousand Bristles",
     banglaTitle: "Premium Bamboo Toothbrush  with Ten thousand Bristles",
     subtitle: "পরিবেশবান্ধব ও দাঁতের সুরক্ষায় ১০০% প্রাকৃতিক চারকোল ব্যাম্বু টুথব্রাশ",
-    price: 690,
-    originalPrice: 1380,
+    price: 200,
+    originalPrice: 800,
+    displayPrice: "399 - 690",
     discountBadge: "৫০% ছাড়",
     soldCount: "৮৫০ জন কিনেছেন",
     images: [
-      "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=600&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80"
+      "https://i.postimg.cc/2605fkhM/Premium-Bamboo-Toothbrush-with-Ten-thousand-Bristles.png",
+      "https://i.postimg.cc/d0Bs8sHG/1-bambo-toothbrush.jpg",
+      "https://i.postimg.cc/s2cjpj6m/2-bambo-toothbrush.jpg",
+      "https://i.postimg.cc/1zHmpmCJ/3-bambo-toothbrush.jpg",
+      "https://i.postimg.cc/R0RScSsP/4-bambo-toothbrush.jpg"
     ],
     features: [
       "১০০% প্রাকৃতিক ও রিসাইকেবল ব্যাম্বু হ্যান্ডেল যা পরিবেশবান্ধব।",
@@ -124,7 +130,7 @@ const products = [
       },
       {
         question: "ডেলিভারি চার্জ কত?",
-        answer: "১ সেট বা ২ সেটের জন্য ডেলিভারি চার্জ মাত্র ১৩০ টাকা। তবে ৩ সেট বা তার বেশি অর্ডারে সারা বাংলাদেশে ডেলিভারি সম্পূর্ণ ফ্রি!"
+        answer: "২ পিস বা ৪ পিস অর্ডারের জন্য ডেলিভারি চার্জ মাত্র ১৩০ টাকা। তবে ৮ পিস বা তার বেশি অর্ডারে সারা বাংলাদেশে ডেলিভারি সম্পূর্ণ ফ্রি!"
       }
     ],
     reviews: [
@@ -153,20 +159,18 @@ products.forEach(p => {
   if (p.id === 'soft-toothbrush') {
     p.combos = [
       { id: 'combo-1', title: "১ সেট (৪ পিস টুথব্রাশ)", price: 590, badge: "৫০% ছাড়", qty: 1 },
-      { id: 'combo-2', title: "২ সেট (৮ পিস) + ফ্রি গিফট", price: 1080, badge: "জনপ্রিয় (৳১০০ সাশ্রয়)", qty: 2 },
-      { id: 'combo-3', title: "৩ সেট (১২ পিস) + ফ্রি ডেলিভারি", price: 1570, badge: "ধামাকা অফার (৳২০০ সাশ্রয়)", qty: 3 }
+      { id: 'combo-2', title: "২ সেট (৮ পিস) + ফ্রি ডেলিভারি", price: 1080, badge: "সাশ্রয়ী অফার", qty: 2, freeShipping: true }
     ];
   } else if (p.id === 'bamboo-soft-toothbrush') {
     p.combos = [
-      { id: 'combo-1', title: "১ সেট (৪ পিস ব্যাম্বু টুথব্রাশ)", price: 690, badge: "৫০% ছাড়", qty: 1 },
-      { id: 'combo-2', title: "২ সেট (৮ পিস) + ফ্রি গিফট", price: 1280, badge: "জনপ্রিয় (৳১০০ সাশ্রয়)", qty: 2 },
-      { id: 'combo-3', title: "৩ সেট (১২ পিস) + ফ্রি ডেলিভারি", price: 1870, badge: "ধামাকা অফার (৳২০০ সাশ্রয়)", qty: 3 }
+      { id: 'combo-1', title: "২টি ব্যাম্বু টুথব্রাশ", price: 399, badge: "সাশ্রয়ী", qty: 2 },
+      { id: 'combo-2', title: "৪টি ব্যাম্বু টুথব্রাশ (১ সেট)", price: 690, badge: "৫০% ছাড়", qty: 4 },
+      { id: 'combo-3', title: "৮টি ব্যাম্বু টুথব্রাশ (২ সেট) + ফ্রি ডেলিভারি", price: 1280, badge: "ফ্রি ডেলিভারি", qty: 8, freeShipping: true }
     ];
   } else {
     p.combos = [
       { id: 'combo-1', title: `১টি ${p.banglaTitle || p.title}`, price: p.price, badge: p.discountBadge, qty: 1 },
-      { id: 'combo-2', title: `২টি ${p.banglaTitle || p.title}`, price: p.price * 2 - 100, badge: "৳১০০ সাশ্রয়", qty: 2 },
-      { id: 'combo-3', title: `৩টি ${p.banglaTitle || p.title}`, price: p.price * 3 - 200, badge: "৳২০০ সাশ্রয়", qty: 3 }
+      { id: 'combo-2', title: `২টি ${p.banglaTitle || p.title} + ফ্রি ডেলিভারি`, price: p.price * 2 - 100, badge: "ফ্রি ডেলিভারি", qty: 2 }
     ];
   }
 });
@@ -292,7 +296,7 @@ function initHomePage() {
             </h3>
             <p class="text-[11px] text-gray-400 line-clamp-1 mt-0.5 font-medium">${product.title}</p>
             <div class="flex items-baseline gap-2 mt-2">
-              <span class="text-emerald-600 font-black text-base md:text-lg">৳${product.price}</span>
+              <span class="text-emerald-600 font-black text-base md:text-lg">৳${product.displayPrice || product.price}</span>
               <span class="text-gray-400 line-through text-xs md:text-sm font-medium">৳${product.originalPrice}</span>
             </div>
           </div>
@@ -346,12 +350,12 @@ function initDetailsPage() {
   document.getElementById('product-title').textContent = product.banglaTitle || product.title;
   document.getElementById('product-subtitle').textContent = product.subtitle || '';
   document.getElementById('product-title-en').textContent = product.title;
-  document.getElementById('price-current').textContent = `৳${product.price}`;
+  document.getElementById('price-current').textContent = `৳${product.displayPrice || product.price}`;
   document.getElementById('price-original').textContent = `৳${product.originalPrice}`;
   document.getElementById('discount-badge-text').textContent = product.discountBadge;
   document.getElementById('sold-badge-text').textContent = product.soldCount || 'ভেরিফাইড প্রোডাক্ট';
   document.getElementById('deal-product-title').textContent = product.banglaTitle || product.title;
-  document.getElementById('deal-product-price').textContent = `৳${product.price}`;
+  document.getElementById('deal-product-price').textContent = `৳${product.displayPrice || product.price}`;
   document.getElementById('long-benefits-title').textContent = product.longBenefitsTitle || 'কেন ব্যবহার করবেন আমাদের এই প্রিমিয়াম প্রোডাক্ট?';
 
   // Render Features list
@@ -811,6 +815,14 @@ function initOrderForm(product) {
     currentQty = product.combos[0].qty;
     qtyInput.textContent = currentQty;
 
+    // Specific request: Hide quantity row for both toothbrushes in Order Summary
+    if (['soft-toothbrush', 'bamboo-soft-toothbrush'].includes(product.id)) {
+      const qtyRow = qtyInput.closest('.flex.justify-between.items-center');
+      if (qtyRow) {
+        qtyRow.classList.add('hidden');
+      }
+    }
+
     // Bind change event to combo radios
     const radioInputs = combosList.querySelectorAll('input[name="combo-package"]');
     radioInputs.forEach(input => {
@@ -892,13 +904,25 @@ function initOrderForm(product) {
     // Get checked combo price
     let subtotal = product.price * currentQty;
     const activeRadio = formElement.querySelector('input[name="combo-package"]:checked');
-    const isThirdCombo = activeRadio && activeRadio.value === 'combo-3';
+    let isFreeDelivery = false;
 
     if (activeRadio && product.combos) {
       const selectedCombo = product.combos.find(c => c.id === activeRadio.value);
-      if (selectedCombo && selectedCombo.qty === currentQty) {
-        subtotal = selectedCombo.price;
+      if (selectedCombo) {
+        if (selectedCombo.qty === currentQty) {
+          subtotal = selectedCombo.price;
+        }
+        if (selectedCombo.freeShipping) {
+          isFreeDelivery = true;
+        }
       }
+    }
+
+    // Threshold fallbacks for manual adjustments
+    if (!isFreeDelivery) {
+      if (product.id === 'soft-toothbrush' && currentQty >= 2) isFreeDelivery = true;
+      if (product.id === 'bamboo-soft-toothbrush' && currentQty >= 8) isFreeDelivery = true;
+      if (!['soft-toothbrush', 'bamboo-soft-toothbrush'].includes(product.id) && currentQty >= 2) isFreeDelivery = true;
     }
 
     const isBkashSelected = bkashRadio && bkashRadio.checked;
@@ -907,13 +931,13 @@ function initOrderForm(product) {
       bkashDiscount = Math.round(subtotal * 0.10);
     }
 
-    const deliveryCharge = isThirdCombo ? 0 : 130; // Flat nationwide delivery charge, free for 3rd option!
+    const deliveryCharge = isFreeDelivery ? 0 : 130; // Flat nationwide delivery charge, free for Set 2 & 3!
     const totalDiscount = promoDiscount + bkashDiscount;
     const grandTotal = Math.max(0, subtotal + deliveryCharge - totalDiscount);
 
     // Update form labels
     invoiceSubtotal.textContent = `৳${subtotal}`;
-    invoiceDelivery.textContent = isThirdCombo ? `৳০ (ফ্রি)` : `৳${deliveryCharge}`;
+    invoiceDelivery.textContent = isFreeDelivery ? `৳০ (ফ্রি)` : `৳${deliveryCharge}`;
     
     if (totalDiscount > 0) {
       invoiceDiscountRow.classList.remove('hidden');
@@ -1066,9 +1090,9 @@ function initOrderForm(product) {
     submitBtn.textContent = 'অর্ডার প্রসেস হচ্ছে...';
 
     const activeRadio = formElement.querySelector('input[name="combo-package"]:checked');
-    const isThirdCombo = activeRadio && activeRadio.value === 'combo-3';
-    const deliveryVal = isThirdCombo ? 0 : 130;
-    const deliveryLabel = isThirdCombo ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
+    const isFreeDelivery = activeRadio && (activeRadio.value === 'combo-2' || activeRadio.value === 'combo-3');
+    const deliveryVal = isFreeDelivery ? 0 : 130;
+    const deliveryLabel = isFreeDelivery ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
     const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
     const grandTotalVal = invoiceGrandTotal.textContent;
 
@@ -1273,7 +1297,7 @@ function injectCartDrawerHTML() {
             <div class="space-y-1">
               <label class="block text-xs font-bold text-gray-700">ডেলিভারি এলাকা নির্বাচন করুন <span class="text-red-500">*</span></label>
               <select id="cart-order-district" class="w-full bg-slate-50 border border-gray-200 rounded-xl py-2.5 px-3 text-xs md:text-sm text-gray-900 font-bold cursor-pointer focus:outline-none focus:border-[#0b6275] transition-all">
-                <option value="bangladesh-courier" selected>সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (৳১৩০)</option>
+                <option value="bangladesh-courier" selected>সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি</option>
               </select>
             </div>
           </form>
@@ -1402,11 +1426,12 @@ function renderCartDrawer() {
               const isSelected = item.quantity === combo.qty;
               return `<option value="${combo.qty}" ${isSelected ? 'selected' : ''}>${combo.title} - ৳${combo.price}</option>`;
             }).join('')}
-            <option value="custom" ${!product.combos.some(c => c.qty === item.quantity) ? 'selected' : ''}>অন্য পরিমাণ (${item.quantity} পিস) - ৳${product.price * item.quantity}</option>
           </select>
         </div>
       `;
     }
+
+    const hideQtyControls = ['soft-toothbrush', 'bamboo-soft-toothbrush'].includes(product.id);
 
     div.innerHTML = `
       <div class="flex items-center justify-between gap-3">
@@ -1422,7 +1447,7 @@ function renderCartDrawer() {
         </div>
         <div class="flex items-center gap-2">
           <!-- Quantity controls -->
-          <div class="flex items-center bg-white border border-gray-200 rounded-xl px-2 py-1 gap-2.5 shadow-2xs">
+          <div class="flex items-center bg-white border border-gray-200 rounded-xl px-2 py-1 gap-2.5 shadow-2xs ${hideQtyControls ? 'hidden' : ''}">
             <button onclick="updateCartQty('${product.id}', -1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">-</button>
             <span class="font-bold text-xs text-gray-800 min-w-[12px] text-center font-mono">${item.quantity}</span>
             <button onclick="updateCartQty('${product.id}', 1)" class="w-5 h-5 rounded-md flex items-center justify-center text-gray-500 hover:bg-slate-100 transition-all cursor-pointer font-bold text-xs">+</button>
@@ -1450,25 +1475,28 @@ function calculateAndRenderTotals() {
     const p = products.find(prod => prod.id === item.id);
     if (!p) return;
 
+    let itemPrice = p.price * item.quantity;
+    let itemIsFree = false;
+
     if (p.combos) {
       const matchedCombo = p.combos.find(c => c.qty === item.quantity);
       if (matchedCombo) {
-        subtotal += matchedCombo.price;
-        if (matchedCombo.id === 'combo-3' || matchedCombo.qty >= 3) {
-          freeDelivery = true;
-        }
-      } else {
-        subtotal += p.price * item.quantity;
-        if (item.quantity >= 3) {
-          freeDelivery = true;
-        }
-      }
-    } else {
-      subtotal += p.price * item.quantity;
-      if (item.quantity >= 3) {
-        freeDelivery = true;
+        itemPrice = matchedCombo.price;
+        if (matchedCombo.freeShipping) itemIsFree = true;
       }
     }
+
+    // Specific product thresholds for free delivery
+    if (p.id === 'soft-toothbrush' && item.quantity >= 2) itemIsFree = true;
+    if (p.id === 'bamboo-soft-toothbrush' && item.quantity >= 8) itemIsFree = true;
+    
+    // Generic fallback for other items if quantity >= 2
+    if (!['soft-toothbrush', 'bamboo-soft-toothbrush'].includes(p.id) && item.quantity >= 2) {
+      itemIsFree = true;
+    }
+
+    subtotal += itemPrice;
+    if (itemIsFree) freeDelivery = true;
   });
   
   const deliveryCharge = freeDelivery ? 0 : 130;
@@ -1521,18 +1549,18 @@ function submitCartOrder(e) {
       const matchedCombo = p.combos.find(c => c.qty === item.quantity);
       if (matchedCombo) {
         subtotal += matchedCombo.price;
-        if (matchedCombo.id === 'combo-3' || matchedCombo.qty >= 3) {
+        if (matchedCombo.id === 'combo-2' || matchedCombo.id === 'combo-3' || matchedCombo.qty >= 2) {
           freeDelivery = true;
         }
       } else {
         subtotal += p.price * item.quantity;
-        if (item.quantity >= 3) {
+        if (item.quantity >= 2) {
           freeDelivery = true;
         }
       }
     } else {
       subtotal += p.price * item.quantity;
-      if (item.quantity >= 3) {
+      if (item.quantity >= 2) {
         freeDelivery = true;
       }
     }
