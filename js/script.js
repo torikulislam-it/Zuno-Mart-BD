@@ -8,8 +8,20 @@ const CONFIG = {
   // Option A: Google Sheet Apps Script Web App URL
   // Paste your deployed Google Apps Script URL here to automatically log orders!
   // Example: "https://script.google.com/macros/s/AKfycb.../exec"
-  GOOGLE_SHEET_WEB_APP_URL: ""
+  GOOGLE_SHEET_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbx4OvLCsgVpCSIpHbPEcJbLluly-65PuKKnYhOVc11redLiIpvE8SNjoDFyLtoXrWr5/exec"
 };
+
+// Utility function to get UTM tracking and browser metadata
+function getOrderTrackingData() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    utmSource: urlParams.get('utm_source') || 'N/A',
+    utmMedium: urlParams.get('utm_medium') || 'N/A',
+    utmCampaign: urlParams.get('utm_campaign') || 'N/A',
+    referrer: document.referrer || 'Direct / Bookmark',
+    userAgent: navigator.userAgent || 'Unknown Device'
+  };
+}
 // Global Products Data
 const products = [
   {
@@ -158,13 +170,13 @@ const products = [
 products.forEach(p => {
   if (p.id === 'soft-toothbrush') {
     p.combos = [
-      { id: 'combo-1', title: "১ সেট (৪ পিস টুথব্রাশ)", price: 590, badge: "৫০% ছাড়", qty: 1 },
+      { id: 'combo-1', title: "১ সেট (৪ পিস টুথব্রাশ)", price: 590, badge: "৫০% ছাড়", qty: 1, popular: true },
       { id: 'combo-2', title: "২ সেট (৮ পিস) + ফ্রি ডেলিভারি", price: 1080, badge: "সাশ্রয়ী অফার", qty: 2, freeShipping: true }
     ];
   } else if (p.id === 'bamboo-soft-toothbrush') {
     p.combos = [
       { id: 'combo-1', title: "২টি ব্যাম্বু টুথব্রাশ", price: 399, badge: "সাশ্রয়ী", qty: 2 },
-      { id: 'combo-2', title: "৪টি ব্যাম্বু টুথব্রাশ (১ সেট)", price: 690, badge: "৫০% ছাড়", qty: 4 },
+      { id: 'combo-2', title: "৪টি ব্যাম্বু টুথব্রাশ (১ সেট)", price: 690, badge: "৫০% ছাড়", qty: 4, popular: true },
       { id: 'combo-3', title: "৮টি ব্যাম্বু টুথব্রাশ (২ সেট) + ফ্রি ডেলিভারি", price: 1280, badge: "ফ্রি ডেলিভারি", qty: 8, freeShipping: true }
     ];
   } else {
@@ -798,21 +810,51 @@ function initOrderForm(product) {
   // Render combo packages dynamically
   const combosList = document.getElementById('combo-packages-list');
   if (combosList && product.combos) {
-    combosList.innerHTML = product.combos.map((combo, idx) => `
-      <label class="combo-option-card flex items-center justify-between bg-zinc-900/40 border ${idx === 0 ? 'border-amber-500 ring-1 ring-amber-500/20' : 'border-zinc-700'} hover:border-amber-400 rounded-2xl p-4 cursor-pointer transition-all select-none">
-        <div class="flex items-center gap-3">
-          <input type="radio" name="combo-package" value="${combo.id}" ${idx === 0 ? 'checked' : ''} class="accent-amber-500 w-4.5 h-4.5 cursor-pointer" />
-          <div>
-            <p class="text-xs md:text-sm font-black text-white">${combo.title}</p>
-            <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 inline-block">${combo.badge}</span>
+    const getComboCardClass = (combo, isSelected) => {
+      if (combo.popular) {
+        if (isSelected) {
+          return "combo-option-card flex items-center justify-between bg-gradient-to-r from-amber-950/40 to-zinc-900/50 border-2 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.25)] rounded-2xl p-4 cursor-pointer transition-all select-none";
+        } else {
+          return "combo-option-card flex items-center justify-between bg-gradient-to-r from-amber-950/15 to-zinc-900/40 border-2 border-amber-500/50 hover:border-amber-400 rounded-2xl p-4 cursor-pointer transition-all select-none";
+        }
+      } else {
+        if (isSelected) {
+          return "combo-option-card flex items-center justify-between bg-zinc-900/45 border-2 border-amber-500 rounded-2xl p-4 cursor-pointer transition-all select-none";
+        } else {
+          return "combo-option-card flex items-center justify-between bg-zinc-900/40 border border-zinc-700 hover:border-amber-400 rounded-2xl p-4 cursor-pointer transition-all select-none";
+        }
+      }
+    };
+
+    const defaultCombo = product.combos.find(c => c.popular) || product.combos[0];
+
+    combosList.innerHTML = product.combos.map((combo, idx) => {
+      const isSelected = combo.id === defaultCombo.id;
+      const cardClass = getComboCardClass(combo, isSelected);
+      const popularBadgeHTML = combo.popular ? `
+        <span class="bg-amber-500 text-black text-[9px] font-black px-2.5 py-0.5 rounded-full ml-1.5 inline-block shadow-md">
+          🔥 জনপ্রিয় (Popular Set)
+        </span>
+      ` : '';
+      return `
+        <label class="${cardClass}">
+          <div class="flex items-center gap-3">
+            <input type="radio" name="combo-package" value="${combo.id}" ${isSelected ? 'checked' : ''} class="accent-amber-500 w-4.5 h-4.5 cursor-pointer" />
+            <div>
+              <div class="flex items-center flex-wrap gap-1">
+                <p class="text-xs md:text-sm font-black text-white">${combo.title}</p>
+                ${popularBadgeHTML}
+              </div>
+              <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[9px] font-bold px-2 py-0.5 rounded-full mt-1 inline-block">${combo.badge}</span>
+            </div>
           </div>
-        </div>
-        <span class="text-sm md:text-base font-black text-amber-400 font-mono">৳${combo.price}</span>
-      </label>
-    `).join('');
+          <span class="text-sm md:text-base font-black text-amber-400 font-mono">৳${combo.price}</span>
+        </label>
+      `;
+    }).join('');
     
-    // Set initial qty from first combo
-    currentQty = product.combos[0].qty;
+    // Set initial qty from default combo
+    currentQty = defaultCombo.qty;
     qtyInput.textContent = currentQty;
 
     // Specific request: Hide quantity row for both toothbrushes in Order Summary
@@ -827,17 +869,15 @@ function initOrderForm(product) {
     const radioInputs = combosList.querySelectorAll('input[name="combo-package"]');
     radioInputs.forEach(input => {
       input.addEventListener('change', (e) => {
-        // Reset borders
+        // Reset and apply proper classes based on selection
         const cards = combosList.querySelectorAll('.combo-option-card');
-        cards.forEach(card => {
-          card.className = 'combo-option-card flex items-center justify-between bg-zinc-900/40 border border-zinc-700 hover:border-amber-400 rounded-2xl p-4 cursor-pointer transition-all select-none';
+        product.combos.forEach((combo, index) => {
+          const card = cards[index];
+          const isSelected = combo.id === e.target.value;
+          if (card) {
+            card.className = getComboCardClass(combo, isSelected);
+          }
         });
-        
-        // Highlight active card
-        const card = e.target.closest('.combo-option-card');
-        if (card) {
-          card.className = 'combo-option-card flex items-center justify-between bg-zinc-900/40 border border-amber-500 ring-1 ring-amber-500/20 rounded-2xl p-4 cursor-pointer transition-all select-none';
-        }
         
         // Get selected combo
         const selectedCombo = product.combos.find(c => c.id === e.target.value);
@@ -1107,23 +1147,40 @@ function initOrderForm(product) {
       }
     }
 
+    const unitPriceVal = `৳${Math.round(subtotal / currentQty)}`;
+    const tracking = getOrderTrackingData();
+    const orderDateObj = new Date();
+    const formattedOrderDate = orderDateObj.toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
+    const deliveryDateObj = new Date(orderDateObj.getTime() + 3 * 24 * 60 * 60 * 1000);
+    const formattedDeliveryDate = deliveryDateObj.toLocaleDateString("en-US", { timeZone: "Asia/Dhaka", year: 'numeric', month: 'long', day: 'numeric' });
+    const paymentStatusVal = paymentMethod === 'bkash' ? 'bKash (Pending Verification)' : 'COD - Pending';
+
     // Optional: Send order data to Google Sheets Web App if configured
     let sheetPromise = Promise.resolve();
     if (CONFIG.GOOGLE_SHEET_WEB_APP_URL) {
       const orderData = {
         orderId: trackingId,
-        date: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+        date: formattedOrderDate,
         name: name,
         phone: phone,
         address: address,
-        product: product.title,
+        product: product.banglaTitle || product.title,
         qty: currentQty,
+        unitPrice: unitPriceVal,
         total: grandTotalVal,
         delivery: deliveryLabel,
+        deliveryDate: formattedDeliveryDate,
         promo: promoCodeVal,
         paymentMethod: paymentMethod,
-        bkashSender: bkashSender,
-        bkashTrx: bkashTrx
+        bkashSender: bkashSender || 'N/A',
+        bkashTrx: bkashTrx || 'N/A',
+        paymentStatus: paymentStatusVal,
+        orderStatus: "Pending Approval",
+        utmSource: tracking.utmSource,
+        utmMedium: tracking.utmMedium,
+        utmCampaign: tracking.utmCampaign,
+        referrer: tracking.referrer,
+        userAgent: tracking.userAgent
       };
 
       sheetPromise = fetch(CONFIG.GOOGLE_SHEET_WEB_APP_URL, {
@@ -1178,7 +1235,18 @@ function initOrderForm(product) {
    ======================================================= */
 function getCart() {
   try {
-    return JSON.parse(localStorage.getItem('fatafati_cart') || '[]');
+    const cart = JSON.parse(localStorage.getItem('fatafati_cart') || '[]');
+    let changed = false;
+    cart.forEach(item => {
+      if (item.id === 'bamboo-soft-toothbrush' && item.quantity < 2) {
+        item.quantity = 2;
+        changed = true;
+      }
+    });
+    if (changed) {
+      localStorage.setItem('fatafati_cart', JSON.stringify(cart));
+    }
+    return cart;
   } catch (e) {
     return [];
   }
@@ -1209,10 +1277,14 @@ function saveCart(cart) {
 function addToCart(productId, qty = 1) {
   const cart = getCart();
   const existing = cart.find(item => item.id === productId);
+  let addQty = qty;
+  if (productId === 'bamboo-soft-toothbrush' && qty === 1) {
+    addQty = 4; // Pre-select the popular bundle of 4 pieces (1 set)
+  }
   if (existing) {
-    existing.quantity += qty;
+    existing.quantity += addQty;
   } else {
-    cart.push({ id: productId, quantity: qty });
+    cart.push({ id: productId, quantity: addQty });
   }
   saveCart(cart);
   openCartDrawer();
@@ -1402,8 +1474,21 @@ function renderCartDrawer() {
     const product = products.find(p => p.id === item.id);
     if (!product) return;
     
+    // Check if the current selected package is popular
+    let isCurrentPopular = false;
+    if (product.combos) {
+      const currentCombo = product.combos.find(c => c.qty === item.quantity);
+      if (currentCombo && currentCombo.popular) {
+        isCurrentPopular = true;
+      }
+    }
+    
     const div = document.createElement('div');
-    div.className = "bg-slate-50 p-3.5 rounded-2xl border border-gray-100 flex flex-col gap-2.5";
+    if (isCurrentPopular) {
+      div.className = "bg-amber-50/50 p-3.5 rounded-2xl border-2 border-amber-400 flex flex-col gap-2.5 shadow-2xs relative overflow-hidden transition-all";
+    } else {
+      div.className = "bg-slate-50 p-3.5 rounded-2xl border border-gray-100 flex flex-col gap-2.5 relative overflow-hidden transition-all";
+    }
     
     // Find current price for this item based on combo matching
     let currentItemPrice = product.price * item.quantity;
@@ -1424,7 +1509,8 @@ function renderCartDrawer() {
           <select onchange="changeCartItemPackage('${product.id}', this.value)" class="w-full bg-white border border-gray-200 rounded-xl px-2 py-1.5 text-[11px] font-bold text-gray-800 cursor-pointer focus:outline-none focus:border-[#0b6275] transition-all">
             ${product.combos.map(combo => {
               const isSelected = item.quantity === combo.qty;
-              return `<option value="${combo.qty}" ${isSelected ? 'selected' : ''}>${combo.title} - ৳${combo.price}</option>`;
+              const popularText = combo.popular ? ' ⭐ জনপ্রিয় সেট' : '';
+              return `<option value="${combo.qty}" ${isSelected ? 'selected' : ''}>${combo.title} - ৳${combo.price}${popularText}</option>`;
             }).join('')}
           </select>
         </div>
@@ -1432,8 +1518,14 @@ function renderCartDrawer() {
     }
 
     const hideQtyControls = ['soft-toothbrush', 'bamboo-soft-toothbrush'].includes(product.id);
+    const popularCartBadgeHTML = isCurrentPopular ? `
+      <div class="absolute top-0 right-0 bg-amber-500 text-black text-[8px] font-black px-2 py-0.5 rounded-bl-xl shadow-xs uppercase tracking-wider animate-pulse z-10">
+        🔥 জনপ্রিয় অফার
+      </div>
+    ` : '';
 
     div.innerHTML = `
+      ${popularCartBadgeHTML}
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <img src="${product.images[0].replace('w=600', 'w=120').replace('q=80', 'q=60')}" alt="${product.banglaTitle || product.title}" class="w-12 h-12 rounded-xl object-cover border border-gray-100 shadow-2xs" />
@@ -1584,21 +1676,39 @@ function submitCartOrder(e) {
   }).filter(Boolean).join(', ');
   
   const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const unitPriceVal = `৳${Math.round(subtotal / totalQty)}`;
+  const tracking = getOrderTrackingData();
+  const orderDateObj = new Date();
+  const formattedOrderDate = orderDateObj.toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
+  const deliveryDateObj = new Date(orderDateObj.getTime() + 3 * 24 * 60 * 60 * 1000);
+  const formattedDeliveryDate = deliveryDateObj.toLocaleDateString("en-US", { timeZone: "Asia/Dhaka", year: 'numeric', month: 'long', day: 'numeric' });
 
   // Optional: Send order data to Google Sheets Web App if configured
   let sheetPromise = Promise.resolve();
   if (CONFIG.GOOGLE_SHEET_WEB_APP_URL) {
     const orderData = {
       orderId: trackingId,
-      date: new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }),
+      date: formattedOrderDate,
       name: name,
       phone: phone,
       address: address,
       product: productNames,
       qty: totalQty,
+      unitPrice: unitPriceVal,
       total: grandTotalVal,
       delivery: deliveryLabel,
-      promo: "N/A"
+      deliveryDate: formattedDeliveryDate,
+      promo: "N/A",
+      paymentMethod: "cod",
+      bkashSender: "N/A",
+      bkashTrx: "N/A",
+      paymentStatus: "COD - Pending",
+      orderStatus: "Pending Approval",
+      utmSource: tracking.utmSource,
+      utmMedium: tracking.utmMedium,
+      utmCampaign: tracking.utmCampaign,
+      referrer: tracking.referrer,
+      userAgent: tracking.userAgent
     };
 
     sheetPromise = fetch(CONFIG.GOOGLE_SHEET_WEB_APP_URL, {

@@ -3,11 +3,11 @@ import { Product } from '../types';
 export const products: Product[] = [
   {
     id: 'soft-toothbrush',
-    title: "World's Softest Toothbrush (4pc Set)",
-    banglaTitle: "ওয়ার্ল্ডস সফটেস্ট টুথব্রাশ (৪ পিস সেট)",
+    title: "Micro-Nano Ultra soft Toothbrush 10000 bristles",
+    banglaTitle: "Micro-Nano Ultra soft Toothbrush 10000 bristles",
     subtitle: "দাঁত ও মাড়ির সুরক্ষায় ১০০% কার্যকরী আল্ট্রা ফাইন মাইক্রো ন্যানো টুথব্রাশ",
-    price: 600,
-    originalPrice: 1200,
+    price: 590,
+    originalPrice: 1180,
     discountBadge: "৫০% ছাড়",
     soldCount: "১২৪০ জন কিনেছেন",
     images: [
