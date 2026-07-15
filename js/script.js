@@ -8,7 +8,7 @@ const CONFIG = {
   // Option A: Google Sheet Apps Script Web App URL
   // Paste your deployed Google Apps Script URL here to automatically log orders!
   // Example: "https://script.google.com/macros/s/AKfycb.../exec"
-  GOOGLE_SHEET_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbx4OvLCsgVpCSIpHbPEcJbLluly-65PuKKnYhOVc11redLiIpvE8SNjoDFyLtoXrWr5/exec"
+  GOOGLE_SHEET_WEB_APP_URL: "https://script.google.com/macros/s/AKfycbxlC7oeEdpMxyyXBh2y1UbEOkFS0ddOC6Bpk5ZecmGKnrgvcB1138b5Y3W-ZjKs58iK/exec"
 };
 
 // Utility function to get UTM tracking and browser metadata
@@ -1155,32 +1155,25 @@ function initOrderForm(product) {
     const formattedDeliveryDate = deliveryDateObj.toLocaleDateString("en-US", { timeZone: "Asia/Dhaka", year: 'numeric', month: 'long', day: 'numeric' });
     const paymentStatusVal = paymentMethod === 'bkash' ? 'bKash (Pending Verification)' : 'COD - Pending';
 
+    let selectedComboTitle = `${currentQty} পিস`;
+    if (activeRadio && product.combos) {
+      const selectedCombo = product.combos.find(c => c.id === activeRadio.value);
+      if (selectedCombo) {
+        selectedComboTitle = selectedCombo.title;
+      }
+    }
+
     // Optional: Send order data to Google Sheets Web App if configured
     let sheetPromise = Promise.resolve();
     if (CONFIG.GOOGLE_SHEET_WEB_APP_URL) {
       const orderData = {
-        orderId: trackingId,
-        date: formattedOrderDate,
-        name: name,
-        phone: phone,
-        address: address,
-        product: product.banglaTitle || product.title,
-        qty: currentQty,
-        unitPrice: unitPriceVal,
-        total: grandTotalVal,
-        delivery: deliveryLabel,
-        deliveryDate: formattedDeliveryDate,
-        promo: promoCodeVal,
-        paymentMethod: paymentMethod,
-        bkashSender: bkashSender || 'N/A',
-        bkashTrx: bkashTrx || 'N/A',
-        paymentStatus: paymentStatusVal,
-        orderStatus: "Pending Approval",
-        utmSource: tracking.utmSource,
-        utmMedium: tracking.utmMedium,
-        utmCampaign: tracking.utmCampaign,
-        referrer: tracking.referrer,
-        userAgent: tracking.userAgent
+        "আপনার নাম লিখুন *": name,
+        "আপনার মোবাইল নাম্বার *": phone,
+        "আপনার সম্পূর্ণ ঠিকানা দিন *": address,
+        "পণ্য বা প্যাকেজ নির্বাচন করুন *": selectedComboTitle,
+        "পেমেন্ট মেথড নির্বাচন করুন *": paymentMethod === 'bkash' ? `bKash (বিকাশ) - নম্বর: ${bkashSender}, TrxID: ${bkashTrx}` : 'ক্যাশ অন ডেলিভারি (Cash on Delivery)',
+        "What product are you ordering and what is its name?": product.title || product.banglaTitle,
+        "Total, how much money?": grandTotalVal
       };
 
       sheetPromise = fetch(CONFIG.GOOGLE_SHEET_WEB_APP_URL, {
@@ -1683,32 +1676,33 @@ function submitCartOrder(e) {
   const deliveryDateObj = new Date(orderDateObj.getTime() + 3 * 24 * 60 * 60 * 1000);
   const formattedDeliveryDate = deliveryDateObj.toLocaleDateString("en-US", { timeZone: "Asia/Dhaka", year: 'numeric', month: 'long', day: 'numeric' });
 
+  const selectedPackages = cart.map(item => {
+    const p = products.find(prod => prod.id === item.id);
+    if (!p) return '';
+    let comboTitle = `${item.quantity} পিস`;
+    if (p.combos) {
+      const matchedCombo = p.combos.find(c => c.qty === item.quantity);
+      if (matchedCombo) comboTitle = matchedCombo.title;
+    }
+    return comboTitle;
+  }).filter(Boolean).join(', ');
+
+  const mainProductNames = cart.map(item => {
+    const p = products.find(prod => prod.id === item.id);
+    return p ? (p.title || p.banglaTitle) : '';
+  }).filter(Boolean).join(', ');
+
   // Optional: Send order data to Google Sheets Web App if configured
   let sheetPromise = Promise.resolve();
   if (CONFIG.GOOGLE_SHEET_WEB_APP_URL) {
     const orderData = {
-      orderId: trackingId,
-      date: formattedOrderDate,
-      name: name,
-      phone: phone,
-      address: address,
-      product: productNames,
-      qty: totalQty,
-      unitPrice: unitPriceVal,
-      total: grandTotalVal,
-      delivery: deliveryLabel,
-      deliveryDate: formattedDeliveryDate,
-      promo: "N/A",
-      paymentMethod: "cod",
-      bkashSender: "N/A",
-      bkashTrx: "N/A",
-      paymentStatus: "COD - Pending",
-      orderStatus: "Pending Approval",
-      utmSource: tracking.utmSource,
-      utmMedium: tracking.utmMedium,
-      utmCampaign: tracking.utmCampaign,
-      referrer: tracking.referrer,
-      userAgent: tracking.userAgent
+      "আপনার নাম লিখুন *": name,
+      "আপনার মোবাইল নাম্বার *": phone,
+      "আপনার সম্পূর্ণ ঠিকানা দিন *": address,
+      "পণ্য বা প্যাকেজ নির্বাচন করুন *": selectedPackages,
+      "পেমেন্ট মেথড নির্বাচন করুন *": "ক্যাশ অন ডেলিভারি (Cash on Delivery)",
+      "What product are you ordering and what is its name?": mainProductNames,
+      "Total, how much money?": grandTotalVal
     };
 
     sheetPromise = fetch(CONFIG.GOOGLE_SHEET_WEB_APP_URL, {
