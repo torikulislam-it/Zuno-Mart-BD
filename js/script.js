@@ -1130,7 +1130,20 @@ function initOrderForm(product) {
     submitBtn.textContent = 'অর্ডার প্রসেস হচ্ছে...';
 
     const activeRadio = formElement.querySelector('input[name="combo-package"]:checked');
-    const isFreeDelivery = activeRadio && (activeRadio.value === 'combo-2' || activeRadio.value === 'combo-3');
+    let isFreeDelivery = false;
+    if (activeRadio && product.combos) {
+      const selectedCombo = product.combos.find(c => c.id === activeRadio.value);
+      if (selectedCombo) {
+        if (selectedCombo.freeShipping) {
+          isFreeDelivery = true;
+        }
+      }
+    }
+    if (!isFreeDelivery) {
+      if (product.id === 'soft-toothbrush' && currentQty >= 2) isFreeDelivery = true;
+      if (product.id === 'bamboo-soft-toothbrush' && currentQty >= 8) isFreeDelivery = true;
+      if (!['soft-toothbrush', 'bamboo-soft-toothbrush'].includes(product.id) && currentQty >= 2) isFreeDelivery = true;
+    }
     const deliveryVal = isFreeDelivery ? 0 : 70;
     const deliveryLabel = isFreeDelivery ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
     const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
