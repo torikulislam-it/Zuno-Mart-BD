@@ -1131,7 +1131,7 @@ function initOrderForm(product) {
 
     const activeRadio = formElement.querySelector('input[name="combo-package"]:checked');
     const isFreeDelivery = activeRadio && (activeRadio.value === 'combo-2' || activeRadio.value === 'combo-3');
-    const deliveryVal = isFreeDelivery ? 0 : 130;
+    const deliveryVal = isFreeDelivery ? 0 : 70;
     const deliveryLabel = isFreeDelivery ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
     const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
     const grandTotalVal = invoiceGrandTotal.textContent;
@@ -1651,7 +1651,7 @@ function submitCartOrder(e) {
     }
   });
   
-  const deliveryVal = freeDelivery ? 0 : 130;
+  const deliveryVal = freeDelivery ? 0 : 70;
   const deliveryLabel = freeDelivery ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
   const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
   const grandTotalVal = `৳${subtotal + deliveryVal}`;
