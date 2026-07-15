@@ -51,7 +51,7 @@ export const Footer: React.FC = () => {
 
           <div className="md:col-span-4 flex flex-col gap-2.5">
             <h4 className="text-white font-bold text-sm">যোগাযোগ করুন</h4>
-            <p className="text-xs text-gray-400">হেল্পলাইন: 01334747918</p>
+            <p className="text-xs text-gray-400">হেল্পলাইন: 01315779093</p>
             <p className="text-xs text-gray-400">ইমেইল: support@fatafatideal.xyz</p>
             <p className="text-xs text-gray-400">সময়: সকাল ৯ টা থেকে রাত ১০ টা (প্রতিদিন)</p>
           </div>

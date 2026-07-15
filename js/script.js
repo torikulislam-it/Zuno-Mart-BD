@@ -142,7 +142,7 @@ const products = [
       },
       {
         question: "ডেলিভারি চার্জ কত?",
-        answer: "২ পিস বা ৪ পিস অর্ডারের জন্য ডেলিভারি চার্জ মাত্র ১৩০ টাকা। তবে ৮ পিস বা তার বেশি অর্ডারে সারা বাংলাদেশে ডেলিভারি সম্পূর্ণ ফ্রি!"
+        answer: "২ পিস বা ৪ পিস অর্ডারের জন্য ডেলিভারি চার্জ মাত্র ৭০ টাকা। তবে ৮ পিস বা তার বেশি অর্ডারে সারা বাংলাদেশে ডেলিভারি সম্পূর্ণ ফ্রি!"
       }
     ],
     reviews: [
@@ -971,7 +971,7 @@ function initOrderForm(product) {
       bkashDiscount = Math.round(subtotal * 0.10);
     }
 
-    const deliveryCharge = isFreeDelivery ? 0 : 130; // Flat nationwide delivery charge, free for Set 2 & 3!
+    const deliveryCharge = isFreeDelivery ? 0 : 70; // Flat nationwide delivery charge, free for Set 2 & 3!
     const totalDiscount = promoDiscount + bkashDiscount;
     const grandTotal = Math.max(0, subtotal + deliveryCharge - totalDiscount);
 
@@ -1584,7 +1584,7 @@ function calculateAndRenderTotals() {
     if (itemIsFree) freeDelivery = true;
   });
   
-  const deliveryCharge = freeDelivery ? 0 : 130;
+  const deliveryCharge = freeDelivery ? 0 : 70;
   const grandTotal = subtotal + deliveryCharge;
   
   document.getElementById('cart-subtotal').textContent = `৳${subtotal}`;

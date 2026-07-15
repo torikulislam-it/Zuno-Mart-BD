@@ -32,7 +32,7 @@ export const FloatingButtons: React.FC<FloatingButtonsProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const whatsAppLink = "https://wa.me/8801334747918?text=" + encodeURIComponent(`হ্যালো! আমি আপনার স্টোর থেকে পণ্য কিনতে আগ্রহী।`);
+  const whatsAppLink = "https://wa.me/8801315779093?text=" + encodeURIComponent(`হ্যালো! আমি আপনার স্টোর থেকে পণ্য কিনতে আগ্রহী।`);
 
   return (
     <>

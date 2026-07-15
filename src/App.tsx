@@ -364,7 +364,7 @@ export default function App() {
                 <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-xs">
                   <span className="text-blue-500 text-2xl">⚡</span>
                   <h4 className="font-extrabold text-gray-800 text-sm mt-1">২৪/৭ কাস্টমার সাপোর্ট</h4>
-                  <p className="text-[11px] text-gray-400 mt-0.5 font-medium">যেকোনো তথ্যে ফোন করুন: 01334747918</p>
+                  <p className="text-[11px] text-gray-400 mt-0.5 font-medium">যেকোনো তথ্যে ফোন করুন: 01315779093</p>
                 </div>
               </div>
 

@@ -13,7 +13,7 @@ export const Header: React.FC<HeaderProps> = ({ onGoHome, cartCount }) => {
         {/* Left empty/placeholder to balance or logo on left for desktop */}
         <div className="flex items-center gap-2 text-xs md:text-sm text-gray-400 font-mono hidden sm:flex">
           <Phone size={14} className="text-yellow-400 animate-pulse" />
-          <span>হটলাইন: 01334747918</span>
+          <span>হটলাইন: 01315779093</span>
         </div>
 
         {/* Center Logo */}

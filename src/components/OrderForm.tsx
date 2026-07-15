@@ -21,7 +21,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, onOrderSuccess })
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Delivery configuration
-  const deliveryCharge = district === 'dhaka-inside' ? 80 : 130;
+  const deliveryCharge = 70;
   const productTotal = product.price * quantity;
   const discountTotal = promoDiscount;
   const grandTotal = Math.max(0, productTotal + deliveryCharge - discountTotal);
@@ -99,7 +99,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, onOrderSuccess })
       `মোবাইল: ${mobileNumber || '(নম্বর লিখুন)'}\n` +
       `ঠিকানা: ${fullAddress || '(ঠিকানা লিখুন)'}`;
     
-    return `https://wa.me/8801334747918?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/8801315779093?text=${encodeURIComponent(message)}`;
   };
 
   const getMessengerLink = () => {
@@ -207,8 +207,8 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, onOrderSuccess })
             onChange={(e) => setDistrict(e.target.value)}
             className="w-full bg-[#141a24] text-white border border-gray-800 rounded-xl py-3 px-3.5 text-sm focus:border-amber-400 focus:outline-none focus:ring-1 focus:ring-amber-400 transition-all font-semibold"
           >
-            <option value="dhaka-inside">ঢাকার ভিতরে — ৳৮০</option>
-            <option value="dhaka-outside">ঢাকার বাইরে — ৳১৩০</option>
+            <option value="dhaka-inside">ঢাকার ভিতরে — ৳৭০</option>
+            <option value="dhaka-outside">ঢাকার বাইরে — ৳৭০</option>
           </select>
         </div>
 
@@ -328,7 +328,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ product, onOrderSuccess })
       </div>
       
       <p className="text-center text-[10px] text-gray-500 mt-4 leading-relaxed font-mono">
-        Hotline: 01334747918 | 100% Secure Checkout SSL Encrypted
+        Hotline: 01315779093 | 100% Secure Checkout SSL Encrypted
       </p>
     </div>
   );
