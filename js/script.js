@@ -1356,7 +1356,7 @@ function injectCartDrawerHTML() {
         <!-- Checkout Form inside drawer -->
         <div id="cart-checkout-form-container" class="border-t border-dashed border-gray-200 pt-4 mt-4">
           <h4 class="font-bold text-gray-900 text-xs md:text-sm border-b border-gray-100 pb-2 mb-3 flex items-center gap-2">
-            <span>📝 ক্যাশ অন ডেলিভারি অর্ডার ফর্ম</span>
+            <span>📝 অর্ডার শিপিং ও পেমেন্ট ফর্ম</span>
           </h4>
           <form id="cart-checkout-form" class="space-y-3">
             <div class="space-y-1">
@@ -1378,6 +1378,51 @@ function injectCartDrawerHTML() {
                 <option value="bangladesh-courier" selected>সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি</option>
               </select>
             </div>
+
+            <!-- Payment Method Selection inside Cart -->
+            <div class="space-y-2.5 pt-2 border-t border-gray-100">
+              <label class="block text-xs font-bold text-gray-700">পেমেন্ট মেথড নির্বাচন করুন <span class="text-red-500">*</span></label>
+              <div class="grid grid-cols-1 gap-2.5">
+                <!-- COD -->
+                <label id="cart-payment-cod-label" class="flex items-center gap-3 bg-slate-50 border-2 border-amber-500 rounded-xl p-3 cursor-pointer transition-all select-none">
+                  <input type="radio" name="cart-payment-method" value="cod" checked class="accent-amber-500 w-4 h-4 cursor-pointer" />
+                  <div>
+                    <p class="text-xs font-black text-gray-800">ক্যাশ অন ডেলিভারি</p>
+                    <p class="text-[10px] text-gray-500 font-semibold">পণ্য হাতে পেয়ে পেমেন্ট করুন</p>
+                  </div>
+                </label>
+                <!-- bKash & Nagad -->
+                <label id="cart-payment-bkash-label" class="flex items-center gap-3 bg-slate-50 border border-gray-200 hover:border-pink-500 rounded-xl p-3 cursor-pointer transition-all select-none">
+                  <input type="radio" name="cart-payment-method" value="bkash" class="accent-pink-500 w-4 h-4 cursor-pointer" />
+                  <div>
+                    <p class="text-xs font-black text-pink-600 flex items-center gap-1.5">
+                      বিকাশ/নগদ অগ্রিম পেমেন্ট
+                      <span class="bg-pink-100 text-pink-600 border border-pink-200 text-[9px] font-black px-1.5 py-0.5 rounded-full">১০% ছাড়!</span>
+                    </p>
+                    <p class="text-[10px] text-gray-500 font-semibold">বিকাশ বা নগদে অগ্রিম সেন্ড মানি করুন</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- bKash Verification Inputs inside Cart -->
+            <div id="cart-bkash-fields-container" class="hidden bg-pink-50/50 border border-pink-100 rounded-xl p-3.5 space-y-3 mt-2 transition-all">
+              <div class="bg-pink-100/50 border border-pink-200/50 rounded-lg p-2.5 text-[11px] text-pink-800 space-y-1.5 leading-relaxed">
+                <p class="font-black">📢 বিকাশ ও নগদ অগ্রিম পেমেন্ট নির্দেশনাবলী:</p>
+                <p class="font-semibold">১. আমাদের বিকাশ বা নগদ পার্সোনাল নাম্বারে <span class="text-white font-black underline bg-pink-600 px-1.5 py-0.5 rounded">01909793851</span> সেন্ড মানি করুন।</p>
+                <p class="font-semibold">২. পেমেন্ট করার পর নিচে আপনার শেন্ডার নম্বর ও ট্রানজেকশন ID (TrxID) প্রদান করুন।</p>
+              </div>
+              <div class="grid grid-cols-1 gap-2.5">
+                <div class="space-y-1 font-semibold">
+                  <label class="block text-[11px] font-bold text-pink-700">যে নম্বর থেকে পাঠিয়েছেন <span class="text-red-500">*</span></label>
+                  <input id="cart-order-bkash-sender" type="tel" placeholder="যেমন: 01xxxxxxxxx" class="w-full bg-white border border-pink-200 rounded-lg py-2 px-3 text-xs text-gray-900 focus:outline-none focus:border-pink-500 font-mono" />
+                </div>
+                <div class="space-y-1 font-semibold">
+                  <label class="block text-[11px] font-bold text-pink-700">ট্রানজেকশন ID (TrxID) <span class="text-red-500">*</span></label>
+                  <input id="cart-order-bkash-trx" type="text" placeholder="যেমন: 8X9Y7Z6W" class="w-full bg-white border border-pink-200 rounded-lg py-2 px-3 text-xs text-gray-900 focus:outline-none focus:border-pink-500 font-mono" />
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -1388,6 +1433,10 @@ function injectCartDrawerHTML() {
           <div class="flex justify-between text-gray-600 font-medium">
             <span>সাব-টোটাল (Subtotal):</span>
             <span id="cart-subtotal" class="font-bold text-gray-800">৳০</span>
+          </div>
+          <div id="cart-discount-row" class="hidden flex justify-between text-pink-600 font-medium">
+            <span>অগ্রিম পেমেন্ট ডিসকাউন্ট (১০%):</span>
+            <span id="cart-discount" class="font-bold">- ৳০</span>
           </div>
           <div class="flex justify-between text-gray-600 font-medium">
             <span>ডেলিভারি চার্জ:</span>
@@ -1423,6 +1472,53 @@ function injectCartDrawerHTML() {
   
   // Attach Submit Order listener
   document.getElementById('cart-submit-order-btn').addEventListener('click', submitCartOrder);
+
+  // Attach payment method listener
+  const cartCodRadio = document.querySelector('input[name="cart-payment-method"][value="cod"]');
+  const cartBkashRadio = document.querySelector('input[name="cart-payment-method"][value="bkash"]');
+  const cartBkashFieldsContainer = document.getElementById('cart-bkash-fields-container');
+  const cartBkashSenderInput = document.getElementById('cart-order-bkash-sender');
+  const cartBkashTrxInput = document.getElementById('cart-order-bkash-trx');
+  
+  const cartPaymentCodLabel = document.getElementById('cart-payment-cod-label');
+  const cartPaymentBkashLabel = document.getElementById('cart-payment-bkash-label');
+
+  function updateCartPaymentMethodUI() {
+    const isBkash = cartBkashRadio && cartBkashRadio.checked;
+    if (isBkash) {
+      if (cartBkashFieldsContainer) cartBkashFieldsContainer.classList.remove('hidden');
+      if (cartBkashSenderInput) cartBkashSenderInput.required = true;
+      if (cartBkashTrxInput) cartBkashTrxInput.required = true;
+      
+      if (cartPaymentBkashLabel) {
+        cartPaymentBkashLabel.className = 'flex items-center gap-3 bg-pink-50 border-2 border-pink-500 rounded-xl p-3 cursor-pointer transition-all select-none';
+      }
+      if (cartPaymentCodLabel) {
+        cartPaymentCodLabel.className = 'flex items-center gap-3 bg-slate-50 border border-gray-200 rounded-xl p-3 cursor-pointer transition-all select-none';
+      }
+    } else {
+      if (cartBkashFieldsContainer) cartBkashFieldsContainer.classList.add('hidden');
+      if (cartBkashSenderInput) {
+        cartBkashSenderInput.required = false;
+        cartBkashSenderInput.value = '';
+      }
+      if (cartBkashTrxInput) {
+        cartBkashTrxInput.required = false;
+        cartBkashTrxInput.value = '';
+      }
+      
+      if (cartPaymentCodLabel) {
+        cartPaymentCodLabel.className = 'flex items-center gap-3 bg-slate-50 border-2 border-amber-500 rounded-xl p-3 cursor-pointer transition-all select-none';
+      }
+      if (cartPaymentBkashLabel) {
+        cartPaymentBkashLabel.className = 'flex items-center gap-3 bg-slate-50 border border-gray-200 hover:border-pink-500 rounded-xl p-3 cursor-pointer transition-all select-none';
+      }
+    }
+    calculateAndRenderTotals();
+  }
+
+  if (cartCodRadio) cartCodRadio.addEventListener('change', updateCartPaymentMethodUI);
+  if (cartBkashRadio) cartBkashRadio.addEventListener('change', updateCartPaymentMethodUI);
 }
 
 function openCartDrawer() {
@@ -1597,11 +1693,30 @@ function calculateAndRenderTotals() {
     if (itemIsFree) freeDelivery = true;
   });
   
+  const cartCheckoutForm = document.getElementById('cart-checkout-form');
+  const cartBkashRadio = cartCheckoutForm ? cartCheckoutForm.querySelector('input[name="cart-payment-method"][value="bkash"]') : null;
+  const isBkashSelected = cartBkashRadio && cartBkashRadio.checked;
+  
+  let bkashDiscount = 0;
+  if (isBkashSelected) {
+    bkashDiscount = Math.round(subtotal * 0.10);
+  }
+  
   const deliveryCharge = freeDelivery ? 0 : 70;
-  const grandTotal = subtotal + deliveryCharge;
+  const grandTotal = Math.max(0, subtotal + deliveryCharge - bkashDiscount);
   
   document.getElementById('cart-subtotal').textContent = `৳${subtotal}`;
   document.getElementById('cart-delivery').textContent = freeDelivery ? `৳০ (ফ্রি)` : `৳${deliveryCharge}`;
+
+  const discountRow = document.getElementById('cart-discount-row');
+  const discountVal = document.getElementById('cart-discount');
+  if (bkashDiscount > 0) {
+    if (discountRow) discountRow.classList.remove('hidden');
+    if (discountVal) discountVal.textContent = `- ৳${bkashDiscount}`;
+  } else {
+    if (discountRow) discountRow.classList.add('hidden');
+  }
+
   document.getElementById('cart-grand-total').textContent = `৳${grandTotal}`;
 }
 
@@ -1629,6 +1744,23 @@ function submitCartOrder(e) {
   if (!name || !phone || !address) {
     document.getElementById('cart-checkout-form').reportValidity();
     return;
+  }
+
+  const formElement = document.getElementById('cart-checkout-form');
+  const cartBkashRadio = formElement ? formElement.querySelector('input[name="cart-payment-method"][value="bkash"]') : null;
+  const isBkashSelected = cartBkashRadio && cartBkashRadio.checked;
+  const paymentMethod = isBkashSelected ? 'bkash' : 'cod';
+  
+  const bkashSenderInput = document.getElementById('cart-order-bkash-sender');
+  const bkashTrxInput = document.getElementById('cart-order-bkash-trx');
+  const bkashSender = isBkashSelected ? bkashSenderInput.value.trim() : '';
+  const bkashTrx = isBkashSelected ? bkashTrxInput.value.trim() : '';
+
+  if (isBkashSelected) {
+    if (!bkashSender || !bkashTrx) {
+      formElement.reportValidity();
+      return;
+    }
   }
   
   const submitBtn = document.getElementById('cart-submit-order-btn');
@@ -1664,10 +1796,15 @@ function submitCartOrder(e) {
     }
   });
   
+  let bkashDiscount = 0;
+  if (isBkashSelected) {
+    bkashDiscount = Math.round(subtotal * 0.10);
+  }
+  
   const deliveryVal = freeDelivery ? 0 : 70;
   const deliveryLabel = freeDelivery ? 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি (ফ্রি)' : 'সারা বাংলাদেশ কুরিয়ার হোম ডেলিভারি';
   const trackingId = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
-  const grandTotalVal = `৳${subtotal + deliveryVal}`;
+  const grandTotalVal = `৳${Math.max(0, subtotal + deliveryVal - bkashDiscount)}`;
   
   // Format ordered products list for WhatsApp and local receipt
   const productNames = cart.map(item => {
@@ -1713,7 +1850,7 @@ function submitCartOrder(e) {
       "আপনার মোবাইল নাম্বার *": phone,
       "আপনার সম্পূর্ণ ঠিকানা দিন *": address,
       "পণ্য বা প্যাকেজ নির্বাচন করুন *": selectedPackages,
-      "পেমেন্ট মেথড নির্বাচন করুন *": "ক্যাশ অন ডেলিভারি (Cash on Delivery)",
+      "পেমেন্ট মেথড নির্বাচন করুন *": paymentMethod === 'bkash' ? `bKash (বিকাশ) - নম্বর: ${bkashSender}, TrxID: ${bkashTrx}` : 'ক্যাশ অন ডেলিভারি (Cash on Delivery)',
       "What product are you ordering and what is its name?": mainProductNames,
       "Total, how much money?": grandTotalVal
     };
@@ -1742,7 +1879,10 @@ function submitCartOrder(e) {
         qty: totalQty,
         deliveryCharge: deliveryVal,
         deliveryLabel: deliveryLabel,
-        grandTotal: grandTotalVal
+        grandTotal: grandTotalVal,
+        paymentMethod: paymentMethod,
+        bkashSender: bkashSender,
+        bkashTrx: bkashTrx
       };
       localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
       
