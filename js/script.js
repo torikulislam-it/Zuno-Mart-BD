@@ -1775,25 +1775,28 @@ function submitCartOrder(e) {
     const p = products.find(prod => prod.id === item.id);
     if (!p) return;
 
+    let itemPrice = p.price * item.quantity;
+    let itemIsFree = false;
+
     if (p.combos) {
       const matchedCombo = p.combos.find(c => c.qty === item.quantity);
       if (matchedCombo) {
-        subtotal += matchedCombo.price;
-        if (matchedCombo.id === 'combo-2' || matchedCombo.id === 'combo-3' || matchedCombo.qty >= 2) {
-          freeDelivery = true;
-        }
-      } else {
-        subtotal += p.price * item.quantity;
-        if (item.quantity >= 2) {
-          freeDelivery = true;
-        }
-      }
-    } else {
-      subtotal += p.price * item.quantity;
-      if (item.quantity >= 2) {
-        freeDelivery = true;
+        itemPrice = matchedCombo.price;
+        if (matchedCombo.freeShipping) itemIsFree = true;
       }
     }
+
+    // Specific product thresholds for free delivery
+    if (p.id === 'soft-toothbrush' && item.quantity >= 2) itemIsFree = true;
+    if (p.id === 'bamboo-soft-toothbrush' && item.quantity >= 8) itemIsFree = true;
+    
+    // Generic fallback for other items if quantity >= 2
+    if (!['soft-toothbrush', 'bamboo-soft-toothbrush'].includes(p.id) && item.quantity >= 2) {
+      itemIsFree = true;
+    }
+
+    subtotal += itemPrice;
+    if (itemIsFree) freeDelivery = true;
   });
   
   let bkashDiscount = 0;

@@ -266,6 +266,10 @@
               <span class="text-gray-400">ডেলিভারি চার্জ:</span>
               <span id="invoice-delivery-charge" class="font-mono text-gray-900 font-bold">৳0</span>
             </div>
+            <div id="invoice-discount-row" class="hidden flex justify-between font-semibold text-pink-600">
+              <span>ডিসকাউন্ট:</span>
+              <span id="invoice-discount" class="font-mono font-bold">- ৳0</span>
+            </div>
             <div class="flex justify-between border-t border-dashed border-gray-200 pt-2.5 text-sm">
               <span class="font-black text-[#0b6275]">সর্বমোট প্রদেয় মূল্য (ক্যাশ অন ডেলিভারি):</span>
               <span id="invoice-grand-total" class="font-mono font-black text-[#0b6275] text-base md:text-lg">৳0</span>
@@ -353,8 +357,27 @@
             document.getElementById('invoice-product-price').textContent = `৳${order.productPrice || 0}`;
             
             document.getElementById('invoice-subtotal').textContent = `৳${order.productPrice || 0}`;
-            document.getElementById('invoice-delivery-charge').textContent = `৳${order.deliveryCharge || 0}`;
+            const delCharge = parseInt(order.deliveryCharge) || 0;
+            document.getElementById('invoice-delivery-charge').textContent = delCharge === 0 ? '৳০ (ফ্রি)' : `৳${delCharge}`;
             document.getElementById('invoice-grand-total').textContent = order.grandTotal || '৳0';
+
+            // Calculate dynamic discount
+            try {
+              const subtotalVal = parseInt(order.productPrice) || 0;
+              const deliveryVal = parseInt(order.deliveryCharge) || 0;
+              const rawTotal = (order.grandTotal || '0').replace(/[^0-9]/g, '');
+              const grandTotalVal = parseInt(rawTotal, 10) || 0;
+              const discountVal = (subtotalVal + deliveryVal) - grandTotalVal;
+
+              if (discountVal > 0) {
+                document.getElementById('invoice-discount-row').classList.remove('hidden');
+                document.getElementById('invoice-discount').textContent = `- ৳${discountVal}`;
+              } else {
+                document.getElementById('invoice-discount-row').classList.add('hidden');
+              }
+            } catch (err) {
+              console.error("Error calculating discount math:", err);
+            }
 
             // Populate bKash elements if prepaid
             if (order.paymentMethod === 'bkash') {
