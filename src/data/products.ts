@@ -11,7 +11,7 @@ export const products: Product[] = [
     discountBadge: "৫০% ছাড়",
     soldCount: "১২৪০ জন কিনেছেন",
     images: [
-      "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=600&auto=format&fit=crop&q=80",
+      "https://i.postimg.cc/T36CZf0Y/1773477951360-ixhjcb.webp",
       "https://images.unsplash.com/photo-1559599101-f09722fb4948?w=600&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80"
     ],
