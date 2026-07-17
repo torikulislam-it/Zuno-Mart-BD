@@ -1093,10 +1093,18 @@ function initOrderForm(product) {
       `মোবাইল: ${phone || '(নম্বর লিখুন)'}\n` +
       `ঠিকানা: ${address || '(ঠিকানা লিখুন)'}`;
 
-    const waBtn = document.getElementById('whatsapp-order-btn');
-    if (waBtn) {
-      waBtn.href = `https://wa.me/8801315779093?text=${encodeURIComponent(message)}`;
-    }
+    const waBtnIds = [
+      'whatsapp-order-btn',
+      'quick-whatsapp-order-btn',
+      'banner-whatsapp-link',
+      'sticky-whatsapp-btn'
+    ];
+    waBtnIds.forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        btn.href = `https://wa.me/8801315779093?text=${encodeURIComponent(message)}`;
+      }
+    });
   }
 
   // Event listeners on form inputs to update WhatsApp text dynamically
