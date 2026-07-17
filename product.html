@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     
     <!-- Meta Pixel Code (Universal Tracking) -->
-    <!-- Replace 'YOUR_PIXEL_ID' with your real Facebook/Meta Pixel ID, or set localStorage.setItem('meta_pixel_id', 'YOUR_ID') -->
     <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -23,12 +22,10 @@
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       
-      const metaPixelId = localStorage.getItem('meta_pixel_id') || 'YOUR_PIXEL_ID';
-      if (metaPixelId && metaPixelId !== 'YOUR_PIXEL_ID') {
+      const metaPixelId = localStorage.getItem('meta_pixel_id') || '1046213938094015';
+      if (metaPixelId) {
         fbq('init', metaPixelId);
         fbq('track', 'PageView');
-      } else {
-        console.log("Meta Pixel: Standing by. Replace 'YOUR_PIXEL_ID' in HTML to enable live tracking.");
       }
     </script>
     <!-- End Meta Pixel Code -->
@@ -62,7 +59,7 @@
   <body class="bg-[#fcfcfd] text-gray-800 antialiased selection:bg-teal-100 selection:text-teal-900">
     <!-- Meta Pixel NoScript Fallback (Safe in body) -->
     <noscript>
-      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" />
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1046213938094015&ev=PageView&noscript=1" />
     </noscript>
 
     <!-- Promo Ticker Announcement -->
