@@ -187,7 +187,7 @@
           </div>
 
           <!-- Price Display -->
-          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center justify-between gap-4">
+          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <span class="text-xs text-gray-400 font-bold uppercase tracking-wide">বিশেষ ছাড় মূল্য</span>
               <div class="flex items-baseline gap-3 mt-1">
@@ -195,9 +195,16 @@
                 <span id="price-original" class="text-gray-400 line-through text-base font-bold">৳0</span>
               </div>
             </div>
-            <div class="bg-red-50 text-red-600 border border-red-100 px-3 py-2 rounded-xl text-center">
-              <p class="text-[10px] uppercase font-black tracking-wide">শতভাগ গ্যারান্টি</p>
-              <p class="text-xs font-bold">ক্যাশ অন ডেলিভারি</p>
+            
+            <div class="flex gap-3 w-full sm:w-auto">
+              <div class="bg-white border border-emerald-100 px-3 py-2 rounded-xl text-center flex-1 sm:flex-none">
+                <p class="text-[10px] uppercase font-black tracking-wide text-emerald-700">১০০% গ্যারান্টি</p>
+                <p class="text-xs font-bold text-gray-800">ক্যাশ অন ডেলিভারি</p>
+              </div>
+              <div class="bg-white border border-sky-100 px-3 py-2 rounded-xl text-center flex-1 sm:flex-none">
+                <p class="text-[10px] uppercase font-black tracking-wide text-sky-700">সার্ভিস</p>
+                <p class="text-xs font-bold text-gray-800">৭ দিনের রিটার্ন</p>
+              </div>
             </div>
           </div>
 
@@ -291,6 +298,28 @@
         <h3 class="font-extrabold text-gray-900 text-sm md:text-base border-b border-gray-100 pb-3 mb-3 uppercase tracking-wide">পণ্য বিবরণী / স্পেসিফিকেশন:</h3>
         <div id="specs-grid" class="divide-y divide-gray-100">
           <!-- Dynamic -->
+        </div>
+      </section>
+
+      <!-- Part 3B: How to Order Section -->
+      <section class="mt-12 bg-zinc-900 text-white rounded-3xl p-6 md:p-8">
+        <h3 class="text-xl md:text-2xl font-black text-center mb-8">কিভাবে অর্ডার করবেন?</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="flex flex-col items-center text-center gap-3">
+            <div class="w-14 h-14 rounded-full bg-amber-500 text-black flex items-center justify-center font-black text-xl shadow-lg">১</div>
+            <h4 class="font-bold">ফর্মটি পূরণ করুন</h4>
+            <p class="text-xs text-gray-400">আপনার নাম, নাম্বার ও ঠিকানা দিয়ে ফর্মটি পূরণ করুন।</p>
+          </div>
+          <div class="flex flex-col items-center text-center gap-3">
+            <div class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-xl shadow-lg">২</div>
+            <h4 class="font-bold">অর্ডার কনফার্ম করুন</h4>
+            <p class="text-xs text-gray-400">কনফার্ম বাটন চাপুন, আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবে।</p>
+          </div>
+          <div class="flex flex-col items-center text-center gap-3">
+            <div class="w-14 h-14 rounded-full bg-sky-500 text-white flex items-center justify-center font-black text-xl shadow-lg">৩</div>
+            <h4 class="font-bold">পণ্য বুঝে নিন</h4>
+            <p class="text-xs text-gray-400">পণ্য চেক করে হাতে বুঝে পেয়ে টাকা পরিশোধ করুন।</p>
+          </div>
         </div>
       </section>
 
@@ -556,7 +585,6 @@
 
         <div class="flex justify-between items-center mb-6">
           <h3 class="font-extrabold text-gray-900 text-sm md:text-base">গ্রাহক মতামত ও ছবি:</h3>
-          <button id="toggle-review-form-btn" class="bg-[#1e1e24] hover:bg-amber-500 hover:text-[#1e1e24] text-white text-xs font-extrabold px-4 py-2.5 rounded-xl transition-all shadow-md cursor-pointer select-none">রিভিউ দিন</button>
         </div>
 
         <!-- Hidden submit review write form -->
@@ -676,7 +704,7 @@
 
       <!-- Copyright Bar -->
       <div class="bg-[#053743]/80 py-4 text-center text-teal-200/50 text-[11px] border-t border-[#053743]">
-        &copy; 2026 Zuno Mart BD. All Rights Reserved. Designed for maximum high-converting sales.
+        &copy; 2026 Zuno Mart BD. All Rights Reserved. Designed by <a href="https://www.facebook.com/tarikul2.0islam" target="_blank" class="hover:underline text-teal-100">Tarikul islam</a>
       </div>
     </footer>
 
@@ -786,5 +814,9 @@
 
     <!-- Core App Engine Script -->
     <script src="js/script.js"></script>
+    <!-- Hidden FB Compliance Disclaimer -->
+    <div class="sr-only">
+      <p>This website is not part of the Facebook website or Facebook Inc. Additionally, this website is not endorsed by Facebook in any way. Facebook is a trademark of Facebook, Inc.</p>
+    </div>
   </body>
 </html>

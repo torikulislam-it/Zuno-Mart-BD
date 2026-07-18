@@ -91,6 +91,22 @@ const products = [
         date: "০৫ জুলাই, ২০২৬",
         comment: "অনেক নরম ব্রাশ, বাচ্চাদের জন্যও এটা ব্যবহার করা যাবে। দেখতেও খুব প্রিমিয়াম লাগে। কালারগুলো দারুণ!",
         verified: true
+      },
+      {
+        id: 'rev-3',
+        userName: "রাহুল আহমেদ",
+        rating: 5,
+        date: "০২ জুলাই, ২০২৬",
+        comment: "দাঁতের সেনসিটিভিটির সমস্যা ছিল, এই ব্রাশটা ব্যবহার করার পর অনেক আরাম পাচ্ছি। কোয়ালিটি সত্যিই অসাধারণ।",
+        verified: true
+      },
+      {
+        id: 'rev-4',
+        userName: "সামিয়া ইসলাম",
+        rating: 4,
+        date: "২৮ জুন, ২০২৬",
+        comment: "প্যাকেজিং খুব সুন্দর ছিল। ব্রাশের ফিনিশিং এবং ব্রিসল খুব সফট। সন্তোষজনক অভিজ্ঞতা।",
+        verified: true
       }
     ]
   },
@@ -722,16 +738,18 @@ function initReviewsSystem(product) {
   }
 
   // Form toggle
-  toggleReviewFormBtn.addEventListener('click', () => {
-    const isHidden = writeReviewForm.classList.contains('hidden');
-    if (isHidden) {
-      writeReviewForm.classList.remove('hidden');
-      toggleReviewFormBtn.textContent = 'রিভিউ বন্ধ করুন';
-    } else {
-      writeReviewForm.classList.add('hidden');
-      toggleReviewFormBtn.textContent = 'রিভিউ দিন';
-    }
-  });
+  if (toggleReviewFormBtn) {
+    toggleReviewFormBtn.addEventListener('click', () => {
+      const isHidden = writeReviewForm.classList.contains('hidden');
+      if (isHidden) {
+        writeReviewForm.classList.remove('hidden');
+        toggleReviewFormBtn.textContent = 'রিভিউ বন্ধ করুন';
+      } else {
+        writeReviewForm.classList.add('hidden');
+        toggleReviewFormBtn.textContent = 'রিভিউ দিন';
+      }
+    });
+  }
 
   // Star selector clicks
   function initStarsSelector() {
